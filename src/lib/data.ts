@@ -3,9 +3,9 @@ export const personalInfo = {
   shortName: "JC Dizon",
   title: "Full Stack & Mobile Developer",
   tagline: "Building scalable web apps and mobile experiences — from backend APIs to Play Store deployments.",
-  email: "johncarlovictoridizon@gmail.com",
-  github: "https://github.com/johncarlodizon",
-  linkedin: "https://linkedin.com/in/john-carlo-dizon-b18064395",
+  email: "johncarlo.dizon@email.com",
+  github: "https://github.com/jcdizon",
+  linkedin: "https://linkedin.com/in/jcdizon",
   location: "Philippines",
   available: true,
 };
@@ -142,9 +142,68 @@ export const experience = [
 
 export const education = [
   {
+    level: "Tertiary",
     degree: "Bachelor of Science in Information Technology",
-    school: "Holy Cross College Sta Ana Pampanga",
-    period: "2019 – 2023",
-    location: "Philippines",
+    school: "Holy Cross College",
+    address: "Sta. Lucia, Sta. Ana, Pampanga",
+    period: "2022 – Present",
+    current: true,
+  },
+  {
+    level: "Senior High School",
+    degree: "Senior High School",
+    school: "San Carlos San Luis National High School",
+    address: "San Luis, Pampanga",
+    period: "2020 – 2022",
+    current: false,
+  },
+  {
+    level: "Junior High School",
+    degree: "Junior High School",
+    school: "Dela Paz Libutad High School",
+    address: "Pampanga",
+    period: "2016 – 2020",
+    current: false,
+  },
+  {
+    level: "Primary",
+    degree: "Elementary",
+    school: "San Carlos Elementary School",
+    address: "Pampanga",
+    period: "2014 – 2016",
+    current: false,
+  },
+];
+
+export const achievements = [
+  {
+    title: "President's Lister",
+    school: "Holy Cross College",
+    period: "Multiple Semesters",
+    icon: "🏆",
+  },
+  {
+    title: "Top 1 Performer in the Department",
+    school: "Holy Cross College",
+    period: "SY 2024–2025",
+    icon: "🥇",
+  },
+  {
+    title: "Rank 9 Overall in the College",
+    school: "Holy Cross College",
+    period: "SY 2024–2025",
+    icon: "⭐",
+  },
+  {
+    title: "Top 3 Performer in the Department",
+    school: "Holy Cross College",
+    period: "SY 2022–2023",
+    icon: "🥉",
+  },
+  {
+    title: "Overall Best Project",
+    school: "San Carlos San Luis National High School",
+    period: "SY 2021–2022",
+    icon: "🎖️",
   },
 ];
