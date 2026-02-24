@@ -201,6 +201,30 @@ export const achievements = [
     icon: "🥉",
   },
   {
+    title: "Best Project for Community Extension",
+    school: "San Carlos San Luis National High School",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best in System",
+    school: "San Carlos San Luis National High School",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best Presenter",
+    school: "San Carlos San Luis National High School",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best in Research Paper",
+    school: "San Carlos San Luis National High School",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
     title: "Overall Best Project",
     school: "San Carlos San Luis National High School",
     period: "SY 2021–2022",
