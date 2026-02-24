@@ -3,7 +3,7 @@ import { useState } from "react";
 import { projects } from "@/lib/data";
 import { Github, ExternalLink, Star } from "lucide-react";
 
-const categories = ["All", "Mobile", "Full Stack", "Backend", "Desktop"];
+const categories = ["All", "Desktop", "Web", "Mobile"];
 
 export default function Projects() {
   const [active, setActive] = useState("All");

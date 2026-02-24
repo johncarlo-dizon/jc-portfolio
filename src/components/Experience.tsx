@@ -33,7 +33,21 @@ export default function Experience() {
                   </div>
                   <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
                     <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
-                      <h4 className="text-white font-semibold">{exp.role}</h4>
+                      <div>
+                        <h4 className="text-white font-semibold">{exp.role}</h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          {exp.type === "Internship" && (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ color: "#34d399", background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.2)" }}>
+                              Internship
+                            </span>
+                          )}
+                          {exp.type === "Academic" && (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ color: "#a78bfa", background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.2)" }}>
+                              Academic
+                            </span>
+                          )}
+                        </div>
+                      </div>
                       <span className="text-xs font-mono px-2 py-0.5 rounded-full whitespace-nowrap" style={{ color: "#818cf8", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)" }}>
                         {exp.period}
                       </span>
