@@ -29,12 +29,22 @@ export default function Projects() {
   const filtered = active==="All" ? projects : projects.filter(p=>p.category===active);
 
   return (
-    <section id="projects" style={{ padding:"6rem 0", background:"var(--bg)", position:"relative" }}>
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="projects" style={{ padding:"5rem 0", background:"var(--bg)" }}>
+      <style>{`
+        .proj-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+        .proj-chibi { flex-shrink: 0; align-self: flex-end; }
+        .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+        @media (max-width: 768px) {
+          .proj-chibi { display: none !important; }
+          .proj-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .proj-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+      <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"0 1.25rem" }}>
 
-        {/* Header row: title LEFT, chibi RIGHT — same level, no overlap */}
-        <div style={{ display:"flex", alignItems:"flex-end", justifyContent:"space-between",
-          gap:"24px", marginBottom:"32px", flexWrap:"wrap" }}>
+        <div className="proj-header">
           <div ref={header.ref} style={{
             opacity:header.on?1:0, transform:header.on?"none":"translateY(24px)",
             transition:"opacity 0.6s ease, transform 0.6s ease" }}>
@@ -44,21 +54,16 @@ export default function Projects() {
               Real applications shipped across web, mobile, and desktop.
             </p>
           </div>
-          {/* Chibi right-aligned, bottom-aligned next to title */}
-          <div style={{
-            opacity:header.on?1:0, transition:"opacity 0.6s ease 0.2s",
-            alignSelf:"flex-end",
-          }} className="hidden md:block">
+          <div className="proj-chibi" style={{ opacity:header.on?1:0, transition:"opacity 0.6s ease 0.2s" }}>
             <ChibiProjects />
           </div>
         </div>
 
-        {/* Filter */}
-        <div style={{ display:"flex", gap:"8px", marginBottom:"32px",
-          opacity:header.on?1:0, transition:"opacity 0.6s ease 0.15s", flexWrap:"wrap" }}>
+        <div style={{ display:"flex", gap:"8px", marginBottom:"28px", flexWrap:"wrap",
+          opacity:header.on?1:0, transition:"opacity 0.6s ease 0.15s" }}>
           {CATS.map(cat => (
             <button key={cat} onClick={() => setActive(cat)} style={{
-              padding:"7px 18px", borderRadius:"999px", fontSize:"13px", fontWeight:500,
+              padding:"7px 16px", borderRadius:"999px", fontSize:"13px", fontWeight:500,
               cursor:"pointer", transition:"all 0.2s",
               background:active===cat?"var(--tx)":"var(--card)",
               color:active===cat?"var(--bg)":"var(--tx2)",
@@ -66,11 +71,10 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Cards */}
-        <div ref={grid.ref} style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(290px,1fr))", gap:"16px" }}>
+        <div ref={grid.ref} className="proj-grid">
           {filtered.map((p, i) => (
             <div key={p.title} style={{
-              position:"relative", borderRadius:"14px", padding:"22px",
+              position:"relative", borderRadius:"14px", padding:"20px",
               background:"var(--card)",
               border:p.featured?"1px solid var(--border-h)":"1px solid var(--border)",
               display:"flex", flexDirection:"column",
@@ -80,7 +84,7 @@ export default function Projects() {
             onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.transform="translateY(-4px)"; el.style.boxShadow="0 12px 36px var(--ac-glow)"; }}
             onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.transform="none"; el.style.boxShadow="none"; }}>
               {p.featured && (
-                <span style={{ position:"absolute", top:"14px", right:"14px",
+                <span style={{ position:"absolute", top:"12px", right:"12px",
                   display:"inline-flex", alignItems:"center", gap:"3px",
                   fontSize:"10px", fontWeight:600, padding:"2px 7px", borderRadius:"999px",
                   color:"var(--amber)", background:"rgba(251,191,36,0.1)", border:"1px solid rgba(251,191,36,0.25)" }}>
@@ -122,7 +126,7 @@ export default function Projects() {
           ))}
         </div>
 
-        <div style={{ textAlign:"center", marginTop:"32px",
+        <div style={{ textAlign:"center", marginTop:"28px",
           opacity:grid.on?1:0, transition:"opacity 0.6s ease 0.5s" }}>
           <a href="https://github.com/johncarlo-dizon" target="_blank" rel="noopener noreferrer"
             style={{ display:"inline-flex", alignItems:"center", gap:"8px",

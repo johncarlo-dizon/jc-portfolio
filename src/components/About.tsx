@@ -4,16 +4,15 @@ import { personalInfo } from "@/lib/data";
 import { MapPin, Globe, Smartphone, Code2, Database } from "lucide-react";
 import { ChibiAbout } from "./ChibiScenes";
 
-function useReveal(dir:"up"|"left"|"right"="up", delay=0) {
+function useReveal(delay=0) {
   const ref = useRef<HTMLDivElement>(null);
   const [on, setOn] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); obs.disconnect(); } }, { threshold:0.12 });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setOn(true); obs.disconnect(); } }, { threshold:0.1 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-  const off = dir==="left"?"translateX(-32px)":dir==="right"?"translateX(32px)":"translateY(28px)";
-  return { ref, style:{ opacity:on?1:0, transform:on?"none":off, transition:`opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s` } as React.CSSProperties };
+  return { ref, style:{ opacity:on?1:0, transform:on?"none":"translateY(24px)", transition:`opacity 0.7s ease ${delay}s, transform 0.7s ease ${delay}s` } as React.CSSProperties };
 }
 
 const highlights = [
@@ -24,22 +23,29 @@ const highlights = [
 ];
 
 export default function About() {
-  const left  = useReveal("left");
-  const right = useReveal("right", 0.12);
-  const chibi = useReveal("up", 0.3);
+  const header = useReveal();
+  const left   = useReveal(0.1);
+  const right  = useReveal(0.2);
 
   return (
-    <section id="about" style={{ padding:"6rem 0", background:"var(--bg)", position:"relative" }}>
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="about" style={{ padding:"5rem 0", background:"var(--bg)" }}>
+      <style>{`
+        .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .about-chibi-wrap { display: flex; justify-content: center; margin-bottom: 24px; }
+        @media (max-width: 768px) {
+          .about-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .about-chibi-wrap { display: none !important; }
+        }
+      `}</style>
+      <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"0 1.25rem" }}>
 
-        {/* CHIBI — sits in the TOP LEFT corner of the section, BEFORE the grid */}
-        <div ref={chibi.ref} style={{ ...chibi.style, display:"flex", justifyContent:"flex-start", marginBottom:"-30px", paddingLeft:"0" }}>
+        {/* Chibi top-left — hidden on mobile */}
+        <div className="about-chibi-wrap" ref={header.ref} style={{ ...header.style, justifyContent:"flex-start", marginBottom:"0" }}>
           <ChibiAbout />
         </div>
 
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"64px", alignItems:"start" }} className="block md:grid">
-          {/* Left text — pushed down so chibi overlaps it from top */}
-          <div ref={left.ref} style={{ ...left.style, paddingTop:"20px" }}>
+        <div className="about-inner">
+          <div ref={left.ref} style={left.style}>
             <span className="section-label">About Me</span>
             <h2 className="section-heading" style={{ marginBottom:"20px" }}>
               Turning ideas into <span>production-ready</span> software
@@ -50,7 +56,7 @@ export default function About() {
               <>Still actively learning every day. I can handle both frontend and backend, and I&apos;m always honest about what I know vs. what I&apos;m still figuring out.</>,
             ].map((p,i) => <p key={i} style={{ fontSize:"14px", color:"var(--tx2)", lineHeight:1.8, marginBottom:"12px" }}>{p}</p>)}
             <div style={{ display:"flex", alignItems:"center", gap:"8px", flexWrap:"wrap", marginTop:"8px" }}>
-              <MapPin size={13} color="var(--tx3)" />
+              <MapPin size={13} color="var(--tx3)"/>
               <span style={{ fontSize:"13px", color:"var(--tx3)" }}>{personalInfo.location}</span>
               {personalInfo.available && (
                 <span style={{ fontSize:"12px", fontWeight:600, color:"var(--green)",
@@ -60,14 +66,13 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right cards */}
           <div ref={right.ref} style={{ ...right.style, display:"flex", flexDirection:"column", gap:"10px" }}>
             {highlights.map((h, i) => (
-              <div key={i} className="card" style={{ padding:"14px 16px", display:"flex", alignItems:"flex-start", gap:"12px", transitionDelay:`${i*0.08}s` }}>
+              <div key={i} className="card" style={{ padding:"14px 16px", display:"flex", alignItems:"flex-start", gap:"12px" }}>
                 <div style={{ width:"34px", height:"34px", borderRadius:"9px", flexShrink:0,
                   background:"var(--ac-dim)", border:"1px solid var(--border-h)",
                   display:"flex", alignItems:"center", justifyContent:"center" }}>
-                  <h.icon size={15} color="var(--tx2)" />
+                  <h.icon size={15} color="var(--tx2)"/>
                 </div>
                 <div>
                   <p style={{ fontSize:"10px", fontWeight:600, letterSpacing:"0.06em", textTransform:"uppercase", color:"var(--tx3)", marginBottom:"2px" }}>{h.label}</p>

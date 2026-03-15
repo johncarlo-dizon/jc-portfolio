@@ -170,3 +170,59 @@ body {
 ::-webkit-scrollbar-thumb { background:var(--tx3); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:var(--tx2); }
 ::selection { background:rgba(124,109,250,0.2); color:var(--tx); }
+
+/* ═══ MOBILE RESPONSIVE ══════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Section padding */
+  .section-pad { padding: 4rem 0 !important; }
+
+  /* Hero two-col → single col */
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .hero-chibi-col { display: none !important; }
+
+  /* About grid → single col */
+  .about-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .about-chibi { display: none !important; }
+
+  /* Projects header row → stack */
+  .projects-header { flex-direction: column !important; align-items: flex-start !important; }
+  .projects-chibi { display: none !important; }
+  .projects-grid { grid-template-columns: 1fr !important; }
+
+  /* Experience grid → single col */
+  .exp-header { flex-direction: column !important; align-items: flex-start !important; }
+  .exp-chibi { display: none !important; }
+  .exp-cols { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+  /* Contact header row → stack */
+  .contact-header { flex-direction: column !important; align-items: flex-start !important; }
+  .contact-chibi { display: none !important; }
+  .contact-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+
+  /* Skills grid → single col */
+  .skills-grid { grid-template-columns: 1fr !important; }
+  .skills-chibi { display: none !important; }
+
+  /* Form two-col → single col */
+  .form-two-col { grid-template-columns: 1fr !important; }
+
+  /* Footer stack center */
+  .footer-inner { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+
+  /* Section headings */
+  .section-heading { font-size: 28px !important; }
+
+  /* Reduce section padding */
+  .max-w-6xl, .max-w-5xl { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+
+  /* Hero text */
+  .hero-text h1 { font-size: 48px !important; }
+
+  /* Navbar — ensure toggle and hamburger don't overflow */
+  .nav-right { gap: 8px !important; }
+}
+
+@media (max-width: 480px) {
+  .hero-text h1 { font-size: 38px !important; }
+  .section-heading { font-size: 24px !important; }
+}

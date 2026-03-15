@@ -45,12 +45,23 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" style={{ padding:"6rem 0", background:"var(--bg3)" }}>
-      <div className="max-w-5xl mx-auto px-6">
+    <section id="contact" style={{ padding:"5rem 0", background:"var(--bg3)" }}>
+      <style>{`
+        .ct-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; flex-wrap: wrap; }
+        .ct-chibi { flex-shrink: 0; align-self: flex-end; }
+        .ct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .ct-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 768px) {
+          .ct-chibi { display: none !important; }
+          .ct-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .ct-form-row { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+      <div style={{ maxWidth:"1100px", margin:"0 auto", padding:"0 1.25rem" }}>
 
-        {/* Header row: title left, chibi right — both fully inside the container */}
-        <div style={{ display:"flex", alignItems:"flex-end", justifyContent:"space-between",
-          gap:"24px", marginBottom:"40px", flexWrap:"wrap" }}>
+        <div className="ct-header">
           <div ref={header.ref} style={{
             opacity:header.on?1:0, transform:header.on?"none":"translateY(24px)",
             transition:"opacity 0.6s ease, transform 0.6s ease" }}>
@@ -60,26 +71,20 @@ export default function Contact() {
               Open to full-time roles and freelance projects. I reply within 24–48 hours.
             </p>
           </div>
-          <div style={{
-            opacity:header.on?1:0, transition:"opacity 0.7s ease 0.3s",
-            alignSelf:"flex-end", flexShrink:0,
-          }} className="hidden md:block">
+          <div className="ct-chibi" style={{ opacity:header.on?1:0, transition:"opacity 0.7s ease 0.3s" }}>
             <ChibiContact />
           </div>
         </div>
 
-        {/* Form + links */}
-        <div ref={content.ref} style={{
-          display:"grid", gridTemplateColumns:"1fr 1fr", gap:"24px",
+        <div ref={content.ref} className="ct-grid" style={{
           opacity:content.on?1:0, transform:content.on?"none":"translateY(24px)",
-          transition:"opacity 0.65s ease 0.1s, transform 0.65s ease 0.1s",
-        }} className="block md:grid">
+          transition:"opacity 0.65s ease 0.1s, transform 0.65s ease 0.1s" }}>
 
           {/* Form */}
-          <div style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:"18px", padding:"26px" }}>
-            <h3 style={{ fontSize:"14px", fontWeight:700, color:"var(--tx)", marginBottom:"20px" }}>Send a Message</h3>
-            <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:"13px" }}>
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"10px" }}>
+          <div style={{ background:"var(--card)", border:"1px solid var(--border)", borderRadius:"16px", padding:"24px" }}>
+            <h3 style={{ fontSize:"14px", fontWeight:700, color:"var(--tx)", marginBottom:"18px" }}>Send a Message</h3>
+            <form onSubmit={submit} style={{ display:"flex", flexDirection:"column", gap:"12px" }}>
+              <div className="ct-form-row">
                 <div>
                   <label style={{ display:"block", fontSize:"10px", fontWeight:600, color:"var(--tx3)", marginBottom:"5px", letterSpacing:"0.06em", textTransform:"uppercase" }}>Name *</label>
                   <input className="form-input" placeholder="Your name" value={fields.name} onChange={set("name")} required/>
@@ -130,12 +135,12 @@ export default function Contact() {
             {links.map((c, i) => (
               <a key={c.label} href={c.href}
                 target={c.label!=="Email"?"_blank":undefined} rel="noopener noreferrer"
-                style={{ display:"flex", alignItems:"center", gap:"12px", padding:"16px 20px",
-                  background:"var(--card)", border:"1px solid var(--border)", borderRadius:"14px",
+                style={{ display:"flex", alignItems:"center", gap:"12px", padding:"14px 18px",
+                  background:"var(--card)", border:"1px solid var(--border)", borderRadius:"12px",
                   textDecoration:"none", transition:"all 0.2s" }}
                 onMouseEnter={e => { const el=e.currentTarget as HTMLAnchorElement; el.style.borderColor="var(--border-h)"; el.style.background="var(--card-h)"; el.style.transform="translateY(-2px)"; el.style.boxShadow="0 6px 20px var(--ac-glow)"; }}
                 onMouseLeave={e => { const el=e.currentTarget as HTMLAnchorElement; el.style.borderColor="var(--border)"; el.style.background="var(--card)"; el.style.transform="none"; el.style.boxShadow="none"; }}>
-                <div style={{ width:"38px", height:"38px", flexShrink:0, borderRadius:"10px",
+                <div style={{ width:"36px", height:"36px", flexShrink:0, borderRadius:"10px",
                   background:"var(--ac-dim)", border:"1px solid var(--border-h)",
                   display:"flex", alignItems:"center", justifyContent:"center" }}>
                   <c.icon size={15} color="var(--tx2)"/>
@@ -147,12 +152,18 @@ export default function Contact() {
                 <ArrowUpRight size={13} color="var(--tx3)"/>
               </a>
             ))}
-            <div style={{ display:"flex", alignItems:"center", gap:"8px", padding:"13px 20px",
-              background:"var(--ac-dim)", border:"1px solid var(--border-h)", borderRadius:"12px" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:"8px", padding:"12px 18px",
+              background:"var(--ac-dim)", border:"1px solid var(--border-h)", borderRadius:"10px" }}>
               <MapPin size={13} color="var(--tx3)"/>
               <span style={{ fontSize:"13px", color:"var(--tx2)" }}>Based in {personalInfo.location} · Remote-friendly</span>
             </div>
-       
+            <div style={{ padding:"12px 16px", background:"rgba(251,191,36,0.05)", border:"1px solid rgba(251,191,36,0.15)", borderRadius:"10px" }}>
+              <p style={{ fontSize:"11px", color:"var(--amber)", fontWeight:700, marginBottom:"3px" }}>⚙️ SMTP Setup</p>
+              <p style={{ fontSize:"11px", color:"var(--tx3)", lineHeight:1.6 }}>
+                Add <code style={{ color:"var(--tx2)", background:"var(--bg3)", padding:"1px 5px", borderRadius:"3px" }}>SMTP_USER</code> and{" "}
+                <code style={{ color:"var(--tx2)", background:"var(--bg3)", padding:"1px 5px", borderRadius:"3px" }}>SMTP_PASS</code> to <code style={{ color:"var(--amber)" }}>.env.local</code>.
+              </p>
+            </div>
           </div>
         </div>
       </div>

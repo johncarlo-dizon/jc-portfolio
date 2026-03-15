@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { skills, softSkills } from "@/lib/data";
 import { ChibiCoder } from "./ChibiScenes";
 
-function useReveal(threshold=0.12) {
+function useReveal(threshold=0.1) {
   const ref = useRef<HTMLDivElement>(null);
   const [on, setOn] = useState(false);
   useEffect(() => {
@@ -16,36 +16,39 @@ function useReveal(threshold=0.12) {
 
 export default function Skills() {
   const header = useReveal();
-  const grid   = useReveal(0.08);
+  const grid   = useReveal(0.06);
   const soft   = useReveal();
-  const chibi  = useReveal(0.05);
+  const chibi  = useReveal(0.04);
 
   return (
-    <section id="skills" style={{ padding:"6rem 0", background:"var(--bg2)", position:"relative", overflow:"hidden" }}>
-      <div style={{ position:"absolute", top:"0", left:"50%", transform:"translateX(-50%)",
-        width:"700px", height:"350px",
-        background:"radial-gradient(ellipse, rgba(124,109,250,0.04) 0%, transparent 70%)",
-        pointerEvents:"none" }} />
+    <section id="skills" style={{ padding:"5rem 0", background:"var(--bg2)", position:"relative", overflow:"hidden" }}>
+      <style>{`
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .skills-chibi-wrap { display: flex; justify-content: center; align-items: flex-end; margin-top: 8px; }
+        @media (max-width: 768px) {
+          .skills-grid { grid-template-columns: 1fr !important; }
+          .skills-chibi-wrap { display: none !important; }
+        }
+      `}</style>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* Header — no chibi here */}
-        <div ref={header.ref} style={{ marginBottom:"40px",
+      <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"0 1.25rem", position:"relative", zIndex:1 }}>
+
+        <div ref={header.ref} style={{ marginBottom:"36px",
           opacity:header.on?1:0, transform:header.on?"none":"translateY(24px)",
           transition:"opacity 0.6s ease, transform 0.6s ease" }}>
           <span className="section-label">Technical Skills</span>
           <h2 className="section-heading">Technologies<br/><span>I Work With</span></h2>
         </div>
 
-        {/* Skill cards */}
-        <div ref={grid.ref} style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(250px, 1fr))", gap:"16px", marginBottom:"40px" }}>
+        <div ref={grid.ref} className="skills-grid" style={{ marginBottom:"36px" }}>
           {skills.map((group, gi) => (
             <div key={group.category} style={{
-              borderRadius:"14px", padding:"22px",
+              borderRadius:"14px", padding:"20px",
               background:"var(--card)", border:"1px solid var(--border)",
-              opacity:grid.on?1:0, transform:grid.on?"none":"translateY(24px) scale(0.97)",
+              opacity:grid.on?1:0, transform:grid.on?"none":"translateY(24px)",
               transition:`opacity 0.55s ease ${gi*0.1}s, transform 0.55s ease ${gi*0.1}s`,
             }}>
-              <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"16px" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:"8px", marginBottom:"14px" }}>
                 <div style={{ width:"3px", height:"14px", background:"linear-gradient(180deg, var(--tx), var(--tx3))", borderRadius:"2px" }} />
                 <h3 style={{ fontSize:"10px", fontWeight:700, letterSpacing:"0.16em", textTransform:"uppercase", color:"var(--tx3)", margin:0 }}>
                   {group.category}
@@ -70,40 +73,34 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* Soft skills */}
-        <div ref={soft.ref} style={{ opacity:soft.on?1:0, transform:soft.on?"none":"translateY(20px)",
-          transition:"opacity 0.6s ease, transform 0.6s ease", marginBottom:"0" }}>
-          <p style={{ fontSize:"10px", fontWeight:700, letterSpacing:"0.16em", textTransform:"uppercase",
-            color:"var(--tx3)", marginBottom:"14px", textAlign:"center" }}>Soft Skills</p>
+        <div ref={soft.ref} style={{ opacity:soft.on?1:0, transform:soft.on?"none":"translateY(20px)", transition:"opacity 0.6s ease, transform 0.6s ease" }}>
+          <p style={{ fontSize:"10px", fontWeight:700, letterSpacing:"0.16em", textTransform:"uppercase", color:"var(--tx3)", marginBottom:"14px", textAlign:"center" }}>Soft Skills</p>
           <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:"8px" }}>
             {softSkills.map((s, i) => (
               <span key={s} style={{
                 padding:"7px 16px", fontSize:"13px", fontWeight:500, borderRadius:"999px",
                 background:"var(--card)", border:"1px solid var(--border-h)", color:"var(--tx2)",
                 opacity:soft.on?1:0, transform:soft.on?"none":"scale(0.9)",
-                transition:`opacity 0.4s ease ${i*0.06}s, transform 0.4s ease ${i*0.06}s`,
-                cursor:"default",
+                transition:`opacity 0.4s ease ${i*0.06}s, transform 0.4s ease ${i*0.06}s`, cursor:"default",
               }}
-              onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor="var(--border-h)"; el.style.color="var(--tx)"; el.style.background="var(--ac-dim)"; el.style.transform="translateY(-2px)"; }}
-              onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor="var(--border-h)"; el.style.color="var(--tx2)"; el.style.background="var(--card)"; el.style.transform="none"; }}>
+              onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.color="var(--tx)"; el.style.background="var(--ac-dim)"; el.style.transform="translateY(-2px)"; }}
+              onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.color="var(--tx2)"; el.style.background="var(--card)"; el.style.transform="none"; }}>
                 {s}
               </span>
             ))}
           </div>
         </div>
 
-        {/* CHIBI — BOTTOM CENTER, sitting on the floor below all cards */}
-        <div ref={chibi.ref} style={{
-          display:"flex", justifyContent:"center", alignItems:"flex-end",
-          marginTop:"0", paddingTop:"0",
+        {/* Chibi bottom center — hidden on mobile */}
+        <div ref={chibi.ref} className="skills-chibi-wrap" style={{
           opacity:chibi.on?1:0, transform:chibi.on?"none":"translateY(30px)",
           transition:"opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s",
-          position:"relative",
         }}>
-          {/* "floor" line the chibi sits on */}
-          <div style={{ position:"absolute", bottom:"8px", left:"50%", transform:"translateX(-50%)",
-            width:"320px", height:"1px", background:"var(--border-h)" }} />
-          <ChibiCoder />
+          <div style={{ position:"relative" }}>
+            <div style={{ position:"absolute", bottom:"8px", left:"50%", transform:"translateX(-50%)",
+              width:"300px", height:"1px", background:"var(--border-h)" }} />
+            <ChibiCoder />
+          </div>
         </div>
       </div>
     </section>
