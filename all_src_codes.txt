@@ -1,0 +1,2024 @@
+// File: src/app/globals.css
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #6366f1;
+  --color-accent-light: #818cf8;
+  --color-bg: #0a0a0f;
+}
+
+* {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0a0a0f;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.card-hover {
+  transition: all 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+::selection { background: rgba(99, 102, 241, 0.3); color: #fff; }
+
+// File: src/app/layout.tsx
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "John Carlo Dizon | Full Stack & Mobile Developer",
+  description:
+    "Full Stack and Mobile Developer specializing in Flutter, Laravel, Spring Boot, React, and CI/CD deployments. Based in the Philippines.",
+  keywords: [
+    "Flutter Developer",
+    "Laravel Developer",
+    "Full Stack Developer",
+    "Mobile Developer",
+    "Spring Boot",
+    "React Developer",
+    "Philippines Developer",
+  ],
+  openGraph: {
+    title: "John Carlo Dizon | Full Stack & Mobile Developer",
+    description:
+      "Building scalable web apps and mobile experiences — from backend APIs to Play Store deployments.",
+    type: "website",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body className={inter.className}>{children}</body>
+    </html>
+  );
+}
+
+// File: src/app/page.tsx
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import Skills from "@/components/Skills";
+import Projects from "@/components/Projects";
+import Experience from "@/components/Experience";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+
+export default function Home() {
+  return (
+    <main className="min-h-screen">
+      <Navbar />
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Experience />
+      <Contact />
+      <Footer />
+    </main>
+  );
+}
+
+// File: src/components/About.tsx
+import { personalInfo } from "@/lib/data";
+import { MapPin, Smartphone, Globe, Database } from "lucide-react";
+
+const highlights = [
+  { icon: Smartphone, label: "Mobile Development", value: "Flutter + Play Store CI/CD" },
+  { icon: Globe, label: "Backend", value: "Laravel, Spring Boot, CI4, PHP" },
+  { icon: Globe, label: "Frontend", value: "React, Next.js, Java Swing" },
+  { icon: Database, label: "Databases", value: "MySQL & PostgreSQL" },
+];
+
+const cardStyle = {
+  background: "rgba(255,255,255,0.03)",
+  border: "1px solid rgba(255,255,255,0.08)",
+  borderRadius: "12px",
+  padding: "20px",
+  transition: "all 0.3s ease",
+};
+
+const iconBoxStyle = {
+  width: 40,
+  height: 40,
+  background: "rgba(99,102,241,0.1)",
+  border: "1px solid rgba(99,102,241,0.2)",
+  borderRadius: "10px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: 16,
+};
+
+export default function About() {
+  return (
+    <section id="about" className="py-24 relative">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          {/* Left */}
+          <div>
+            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: "#818cf8" }}>
+              About Me
+            </p>
+            <h2 className="text-4xl font-bold text-white mb-6 leading-tight">
+              Turning ideas into{" "}
+              <span style={{ color: "#818cf8" }}>production-ready</span> software
+            </h2>
+            <div className="space-y-4 leading-relaxed" style={{ color: "#94a3b8" }}>
+              <p>
+                I&apos;m <strong className="text-white">John Carlo Victoria Dizon</strong>, a Full Stack and Mobile
+                Developer from the Philippines with hands-on experience building and shipping real-world applications
+                across web and mobile platforms.
+              </p>
+              <p>
+                My expertise spans the full development lifecycle — from designing relational databases in PostgreSQL
+                and MySQL, building REST APIs with Laravel, CodeIgniter 4, and Spring Boot, to deploying polished
+                Flutter apps directly to the Google Play Store using automated CI/CD pipelines.
+              </p>
+              <p>
+                I take pride in writing clean, maintainable code and building software that solves real problems.
+                Whether it&apos;s a backend API, a cross-platform mobile app, or a full-stack web system, I bring
+                the same attention to architecture and performance.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 mt-6 text-sm" style={{ color: "#6b7280" }}>
+              <MapPin size={14} style={{ color: "#818cf8" }} />
+              <span>{personalInfo.location}</span>
+              {personalInfo.available && (
+                <>
+                  <span className="mx-2">·</span>
+                  <span style={{ color: "#34d399", fontWeight: 600 }}>Available for opportunities</span>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Right */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {highlights.map((item) => (
+              <div key={item.label} style={cardStyle}>
+                <div style={iconBoxStyle}>
+                  <item.icon size={18} color="#818cf8" />
+                </div>
+                <p className="text-xs uppercase tracking-wider font-semibold mb-1" style={{ color: "#6b7280" }}>
+                  {item.label}
+                </p>
+                <p className="text-white font-medium text-sm">{item.value}</p>
+              </div>
+            ))}
+
+            {/* Stats */}
+            <div
+              className="sm:col-span-2 rounded-xl p-5"
+              style={{
+                background: "linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08))",
+                border: "1px solid rgba(99,102,241,0.2)",
+              }}
+            >
+              <div className="grid grid-cols-3 text-center" style={{ gap: 0 }}>
+                {[
+                  { value: "5+", label: "Projects Shipped" },
+                  { value: "3+", label: "Tech Stacks" },
+                  { value: "100%", label: "CI/CD Automated" },
+                ].map((stat, i) => (
+                  <div
+                    key={stat.label}
+                    style={{
+                      paddingLeft: 16,
+                      paddingRight: 16,
+                      borderRight: i < 2 ? "1px solid rgba(255,255,255,0.08)" : undefined,
+                    }}
+                  >
+                    <p className="text-2xl font-bold" style={{ color: "#818cf8" }}>{stat.value}</p>
+                    <p className="text-xs mt-1" style={{ color: "#6b7280" }}>{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// File: src/components/Contact.tsx
+import { personalInfo } from "@/lib/data";
+import { Mail, Github, Linkedin, MapPin, ArrowUpRight } from "lucide-react";
+
+const contacts = [
+  { icon: Mail, label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
+  { icon: Github, label: "GitHub", value: "github.com/jcdizon", href: personalInfo.github },
+  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/jcdizon", href: personalInfo.linkedin },
+];
+
+export default function Contact() {
+  return (
+    <section id="contact" className="py-24">
+      <div className="max-w-4xl mx-auto px-6 text-center">
+        <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: "#818cf8" }}>
+          Contact
+        </p>
+        <h2 className="text-4xl font-bold text-white mb-4">Let&apos;s Work Together</h2>
+        <p
+          className="text-lg max-w-xl mx-auto mb-12 leading-relaxed"
+          style={{ color: "#94a3b8" }}
+        >
+          I&apos;m currently open to full-time roles and freelance projects. If you have an
+          opportunity or just want to connect, feel free to reach out.
+        </p>
+
+        <div className="grid sm:grid-cols-3 gap-4 mb-12">
+          {contacts.map((c) => (
+            <a
+              key={c.label}
+              href={c.href}
+              target={c.label !== "Email" ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="group rounded-2xl p-6 card-hover block"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                textDecoration: "none",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-colors"
+                style={{
+                  background: "rgba(99,102,241,0.1)",
+                  border: "1px solid rgba(99,102,241,0.2)",
+                }}
+              >
+                <c.icon size={20} color="#818cf8" />
+              </div>
+              <p className="text-xs uppercase tracking-wider font-semibold mb-1" style={{ color: "#6b7280" }}>
+                {c.label}
+              </p>
+              <p className="text-white text-sm font-medium">{c.value}</p>
+              <div className="flex justify-center mt-3">
+                <ArrowUpRight size={14} color="#818cf8" style={{ opacity: 0.6 }} />
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center gap-2 text-sm" style={{ color: "#6b7280" }}>
+          <MapPin size={14} />
+          <span>Based in {personalInfo.location} · Remote-friendly</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// File: src/components/Experience.tsx
+import { experience, education, achievements } from "@/lib/data";
+import { Briefcase, GraduationCap, CheckCircle2, Trophy, MapPin } from "lucide-react";
+
+export default function Experience() {
+  return (
+    <section id="experience" className="py-24" style={{ background: "rgba(255,255,255,0.015)" }}>
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: "#818cf8" }}>
+            Background
+          </p>
+          <h2 className="text-4xl font-bold text-white">Experience &amp; Education</h2>
+        </div>
+
+        {/* Top row: Work + Education */}
+        <div className="grid md:grid-cols-2 gap-10 mb-10">
+
+          {/* Work Experience */}
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <div style={{ width: 36, height: 36, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Briefcase size={16} color="#818cf8" />
+              </div>
+              <h3 className="text-white font-bold text-lg">Work Experience</h3>
+            </div>
+
+            <div className="space-y-6 relative" style={{ paddingLeft: 40 }}>
+              <div className="absolute top-0 bottom-0" style={{ left: 14, width: 1, background: "rgba(255,255,255,0.08)" }} />
+              {experience.map((exp, i) => (
+                <div key={i} className="relative">
+                  <div className="absolute flex items-center justify-center rounded-full" style={{ left: -40, top: 4, width: 28, height: 28, background: "#0a0a0f", border: "1px solid rgba(99,102,241,0.3)" }}>
+                    <div className="rounded-full" style={{ width: 8, height: 8, background: "#6366f1" }} />
+                  </div>
+                  <div className="rounded-xl p-5" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
+                      <div>
+                        <h4 className="text-white font-semibold">{exp.role}</h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          {exp.type === "Internship" && (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ color: "#34d399", background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.2)" }}>
+                              Internship
+                            </span>
+                          )}
+                          {exp.type === "Academic" && (
+                            <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ color: "#a78bfa", background: "rgba(167,139,250,0.1)", border: "1px solid rgba(167,139,250,0.2)" }}>
+                              Academic
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-xs font-mono px-2 py-0.5 rounded-full whitespace-nowrap" style={{ color: "#818cf8", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)" }}>
+                        {exp.period}
+                      </span>
+                    </div>
+                    <p className="text-sm mb-4" style={{ color: "#6b7280" }}>{exp.company} · {exp.location}</p>
+                    <ul className="space-y-2">
+                      {exp.description.map((item, j) => (
+                        <li key={j} className="flex items-start gap-2 text-sm" style={{ color: "#94a3b8" }}>
+                          <CheckCircle2 size={14} color="#6366f1" style={{ marginTop: 2, flexShrink: 0 }} />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Education */}
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <div style={{ width: 36, height: 36, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <GraduationCap size={16} color="#818cf8" />
+              </div>
+              <h3 className="text-white font-bold text-lg">Education</h3>
+            </div>
+
+            <div className="space-y-3">
+              {education.map((edu, i) => (
+                <div key={i} className="rounded-xl p-5 transition-all duration-300" style={{
+                  background: edu.current ? "linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.06))" : "rgba(255,255,255,0.03)",
+                  border: edu.current ? "1px solid rgba(99,102,241,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                }}>
+                  <div className="flex items-start justify-between gap-2 flex-wrap">
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#818cf8" }}>{edu.level}</span>
+                        {edu.current && (
+                          <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ color: "#34d399", background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.2)" }}>
+                            Current
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="text-white font-semibold text-sm">{edu.school}</h4>
+                      <div className="flex items-center gap-1 mt-1" style={{ color: "#6b7280" }}>
+                        <MapPin size={11} />
+                        <span className="text-xs">{edu.address}</span>
+                      </div>
+                    </div>
+                    <span className="text-xs font-mono px-2 py-0.5 rounded-full whitespace-nowrap" style={{ color: "#818cf8", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.2)" }}>
+                      {edu.period}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Achievements */}
+        <div className="mb-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div style={{ width: 36, height: 36, background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.2)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Trophy size={16} color="#fbbf24" />
+            </div>
+            <h3 className="text-white font-bold text-lg">Achievements</h3>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {achievements.map((ach, i) => (
+              <div key={i} className="rounded-xl p-5 flex items-start gap-4 card-hover" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                <span className="text-3xl">{ach.icon}</span>
+                <div>
+                  <h4 className="text-white font-semibold text-sm leading-snug mb-1">{ach.title}</h4>
+                  <p className="text-xs" style={{ color: "#6b7280" }}>{ach.school}</p>
+                  <p className="text-xs font-mono mt-1" style={{ color: "#818cf8" }}>{ach.period}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Key Strengths */}
+        <div className="rounded-xl p-6" style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.06), rgba(139,92,246,0.06))", border: "1px solid rgba(99,102,241,0.2)" }}>
+          <h4 className="text-white font-semibold mb-4">Key Strengths</h4>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "Clean Code", "API Design", "CI/CD Automation", "Database Design",
+              "Problem Solving", "Team Collaboration", "Agile / Scrum", "Code Review",
+              "Mobile Deployment", "RESTful Architecture", "Performance Optimization", "Documentation",
+            ].map((str) => (
+              <span key={str} className="px-3 py-1 text-xs font-medium rounded-full" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#94a3b8" }}>
+                {str}
+              </span>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+// File: src/components/Footer.tsx
+import { personalInfo } from "@/lib/data";
+
+export default function Footer() {
+  return (
+    <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }} className="py-8">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="text-sm" style={{ color: "#4b5563" }}>
+          <span style={{ color: "#818cf8", fontWeight: 700 }}>&lt;JC/&gt;</span>{" "}
+          {new Date().getFullYear()} · John Carlo Victoria Dizon
+        </div>
+        <div className="flex items-center gap-6 text-sm" style={{ color: "#4b5563" }}>
+          {["#about", "#projects", "#contact"].map((href) => (
+            <a
+              key={href}
+              href={href}
+              className="hover:text-white transition-colors capitalize"
+            >
+              {href.replace("#", "")}
+            </a>
+          ))}
+          <a href={`mailto:${personalInfo.email}`} className="hover:text-white transition-colors">
+            {personalInfo.email}
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// File: src/components/Hero.tsx
+"use client";
+import { personalInfo } from "@/lib/data";
+import { Github, Linkedin, Mail, ArrowDown, ExternalLink } from "lucide-react";
+
+export default function Hero() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background grid */}
+      <div className="absolute inset-0 bg-grid" />
+
+      {/* Glow orbs */}
+      <div
+        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)" }}
+      />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%)" }}
+      />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+        {/* Badge */}
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm mb-8"
+          style={{
+            background: "rgba(99,102,241,0.1)",
+            border: "1px solid rgba(99,102,241,0.2)",
+            color: "#a5b4fc",
+          }}
+        >
+          <span className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
+          Full Stack &amp; Mobile Developer
+        </div>
+
+        {/* Name */}
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
+          Hi, I&apos;m{" "}
+          <span
+            style={{
+              background: "linear-gradient(to right, #818cf8, #a78bfa, #c084fc)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            John Carlo
+          </span>
+          <br />
+          <span className="text-4xl md:text-6xl" style={{ color: "#cbd5e1" }}>
+            Dizon
+          </span>
+        </h1>
+
+        {/* Tagline */}
+        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "#94a3b8" }}>
+          {personalInfo.tagline}
+        </p>
+
+        {/* Tech pill tags */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
+          {["Flutter", "Laravel", "Spring Boot", "React", "CI/CD", "PostgreSQL"].map((tech) => (
+            <span
+              key={tech}
+              className="px-3 py-1 text-xs font-medium rounded-full"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "#94a3b8",
+              }}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <a
+            href="#projects"
+            className="px-8 py-3 rounded-lg font-semibold text-white flex items-center gap-2 transition-all duration-200"
+            style={{ background: "#6366f1" }}
+            onMouseEnter={e => (e.currentTarget.style.background = "#4f46e5")}
+            onMouseLeave={e => (e.currentTarget.style.background = "#6366f1")}
+          >
+            View My Work <ExternalLink size={16} />
+          </a>
+          <a
+            href="#contact"
+            className="px-8 py-3 rounded-lg font-semibold text-white flex items-center gap-2 transition-all duration-200"
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}
+          >
+            Get In Touch <Mail size={16} />
+          </a>
+        </div>
+
+        {/* Social links */}
+        <div className="flex items-center justify-center gap-4 mb-16">
+          {[
+            { icon: Github, href: personalInfo.github, label: "GitHub" },
+            { icon: Linkedin, href: personalInfo.linkedin, label: "LinkedIn" },
+            { icon: Mail, href: `mailto:${personalInfo.email}`, label: "Email" },
+          ].map(({ icon: Icon, href, label }) => (
+            <a
+              key={label}
+              href={href}
+              target={label !== "Email" ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="p-3 rounded-lg transition-all duration-200"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "#94a3b8",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.color = "#94a3b8"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+            >
+              <Icon size={20} />
+            </a>
+          ))}
+        </div>
+
+        {/* Scroll */}
+        <div className="flex flex-col items-center gap-2" style={{ color: "#4b5563" }}>
+          <span className="text-xs tracking-widest uppercase">Scroll</span>
+          <ArrowDown size={16} className="animate-bounce" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// File: src/components/Navbar.tsx
+"use client";
+import { useState, useEffect } from "react";
+import { personalInfo } from "@/lib/data";
+
+const navLinks = [
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      style={
+        scrolled
+          ? {
+              background: "rgba(10,10,15,0.90)",
+              backdropFilter: "blur(12px)",
+              borderBottom: "1px solid rgba(255,255,255,0.05)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+            }
+          : {}
+      }
+    >
+      <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="#" className="font-bold text-xl tracking-tight text-white hover:text-indigo-400 transition-colors">
+          <span style={{ color: "#818cf8" }}>&lt;</span>
+          JC
+          <span style={{ color: "#818cf8" }}>/&gt;</span>
+        </a>
+
+        {/* Desktop */}
+        <ul className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <a
+                href={link.href}
+                className="text-sm font-medium transition-colors duration-200 relative group"
+                style={{ color: "#94a3b8" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+                onMouseLeave={e => (e.currentTarget.style.color = "#94a3b8")}
+              >
+                {link.label}
+                <span
+                  className="absolute -bottom-1 left-0 h-px bg-indigo-400 transition-all duration-300 w-0 group-hover:w-full"
+                  style={{ display: "block" }}
+                />
+              </a>
+            </li>
+          ))}
+          {personalInfo.available && (
+            <li>
+              <span
+                className="flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-full"
+                style={{
+                  color: "#34d399",
+                  background: "rgba(52,211,153,0.1)",
+                  border: "1px solid rgba(52,211,153,0.2)",
+                }}
+              >
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                Open to Work
+              </span>
+            </li>
+          )}
+        </ul>
+
+        {/* Mobile button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden p-2"
+          style={{ color: "#94a3b8" }}
+        >
+          <div className="w-5 space-y-1">
+            <span
+              className="block h-0.5 bg-current transition-all duration-200"
+              style={{ transform: menuOpen ? "rotate(45deg) translateY(6px)" : undefined }}
+            />
+            <span
+              className="block h-0.5 bg-current transition-all duration-200"
+              style={{ opacity: menuOpen ? 0 : 1 }}
+            />
+            <span
+              className="block h-0.5 bg-current transition-all duration-200"
+              style={{ transform: menuOpen ? "rotate(-45deg) translateY(-6px)" : undefined }}
+            />
+          </div>
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div
+          className="md:hidden px-6 py-4"
+          style={{
+            background: "rgba(13,13,20,0.97)",
+            backdropFilter: "blur(12px)",
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+          }}
+        >
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="block py-3 font-medium transition-colors"
+              style={{
+                color: "#94a3b8",
+                borderBottom: "1px solid rgba(255,255,255,0.05)",
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
+  );
+}
+
+// File: src/components/Projects.tsx
+"use client";
+import { useState } from "react";
+import { projects } from "@/lib/data";
+import { Github, ExternalLink, Star } from "lucide-react";
+
+const categories = ["All", "Desktop", "Web", "Mobile"];
+
+export default function Projects() {
+  const [active, setActive] = useState("All");
+  const filtered = active === "All" ? projects : projects.filter((p) => p.category === active);
+
+  return (
+    <section id="projects" className="py-24">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: "#818cf8" }}>
+            Portfolio
+          </p>
+          <h2 className="text-4xl font-bold text-white mb-4">Projects I&apos;ve Built</h2>
+          <p className="max-w-xl mx-auto" style={{ color: "#94a3b8" }}>
+            A selection of real-world applications built across different stacks and platforms.
+          </p>
+        </div>
+
+        {/* Filter tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActive(cat)}
+              className="px-5 py-2 rounded-full text-sm font-medium transition-all duration-200"
+              style={
+                active === cat
+                  ? { background: "#6366f1", color: "#fff" }
+                  : {
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      color: "#94a3b8",
+                    }
+              }
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((project) => (
+            <div
+              key={project.title}
+              className="relative rounded-2xl p-6 card-hover flex flex-col"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: project.featured
+                  ? "1px solid rgba(99,102,241,0.3)"
+                  : "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              {project.featured && (
+                <div className="absolute top-4 right-4">
+                  <span
+                    className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium"
+                    style={{
+                      color: "#fbbf24",
+                      background: "rgba(251,191,36,0.1)",
+                      border: "1px solid rgba(251,191,36,0.2)",
+                    }}
+                  >
+                    <Star size={10} fill="currentColor" />
+                    Featured
+                  </span>
+                </div>
+              )}
+
+              <div className="mb-3">
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "#818cf8" }}>
+                  {project.category}
+                </span>
+              </div>
+
+              <h3 className="text-white font-bold text-lg mb-3 leading-snug">{project.title}</h3>
+              <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: "#94a3b8" }}>
+                {project.description}
+              </p>
+
+              <div className="flex flex-wrap gap-2 mb-5">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 text-xs rounded"
+                    style={{
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      color: "#6b7280",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <div
+                className="flex items-center gap-4 pt-4"
+                style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+              >
+                <a
+                  href={project.github}
+                  className="flex items-center gap-1.5 text-sm transition-colors"
+                  style={{ color: "#94a3b8" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+                  onMouseLeave={e => (e.currentTarget.style.color = "#94a3b8")}
+                >
+                  <Github size={14} /> Code
+                </a>
+                {project.live && (
+                  <a
+                    href={project.live}
+                    className="flex items-center gap-1.5 text-sm transition-colors"
+                    style={{ color: "#94a3b8" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "#94a3b8")}
+                  >
+                    <ExternalLink size={14} /> Live Demo
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <a
+            href="https://github.com/jcdizon"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-white transition-all duration-200"
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}
+          >
+            <Github size={16} /> View All on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// File: src/components/Skills.tsx
+"use client";
+import { skills } from "@/lib/data";
+import { useEffect, useState } from "react";
+
+// Chibi coder SVG animation component
+function ChibiCoder() {
+  return (
+    <div className="chibi-wrapper">
+      <style>{`
+        .chibi-wrapper {
+          position: relative;
+          width: 260px;
+          height: 200px;
+          flex-shrink: 0;
+        }
+
+        /* Desk */
+        .desk {
+          position: absolute;
+          bottom: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 240px;
+          height: 14px;
+          background: linear-gradient(180deg, #3d2b1f 0%, #2a1d14 100%);
+          border-radius: 4px 4px 2px 2px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .desk-leg {
+          position: absolute;
+          bottom: -28px;
+          width: 10px;
+          height: 28px;
+          background: #2a1d14;
+          border-radius: 0 0 3px 3px;
+        }
+        .desk-leg.left { left: 20px; }
+        .desk-leg.right { right: 20px; }
+
+        /* Monitors */
+        .monitor {
+          position: absolute;
+          bottom: 24px;
+          background: #1a1a2e;
+          border-radius: 6px 6px 3px 3px;
+          border: 2px solid #2d2d4e;
+          overflow: hidden;
+          box-shadow: 0 0 15px rgba(99,102,241,0.3), inset 0 0 8px rgba(0,0,0,0.5);
+        }
+        .monitor.left {
+          width: 72px;
+          height: 50px;
+          left: 8px;
+          transform: perspective(200px) rotateY(12deg);
+        }
+        .monitor.right {
+          width: 72px;
+          height: 50px;
+          right: 8px;
+          transform: perspective(200px) rotateY(-12deg);
+        }
+        .monitor-screen {
+          width: 100%;
+          height: 100%;
+          padding: 4px;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          overflow: hidden;
+        }
+        .code-line {
+          height: 3px;
+          border-radius: 2px;
+          background: rgba(99,102,241,0.6);
+          animation: codePulse 2s ease-in-out infinite;
+        }
+        .code-line:nth-child(1) { width: 80%; animation-delay: 0s; }
+        .code-line:nth-child(2) { width: 60%; animation-delay: 0.15s; background: rgba(139,92,246,0.5); }
+        .code-line:nth-child(3) { width: 90%; animation-delay: 0.3s; }
+        .code-line:nth-child(4) { width: 50%; animation-delay: 0.45s; background: rgba(34,211,238,0.4); }
+        .code-line:nth-child(5) { width: 70%; animation-delay: 0.6s; }
+        .code-line:nth-child(6) { width: 40%; animation-delay: 0.75s; background: rgba(139,92,246,0.5); }
+        .code-line:nth-child(7) { width: 85%; animation-delay: 0.9s; }
+        .code-line:nth-child(8) { width: 55%; animation-delay: 1.05s; background: rgba(34,211,238,0.4); }
+
+        @keyframes codePulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 1; }
+        }
+
+        /* Cursor blink on left monitor */
+        .cursor {
+          position: absolute;
+          bottom: 40px;
+          left: 22px;
+          width: 2px;
+          height: 5px;
+          background: #22d3ee;
+          border-radius: 1px;
+          animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* Keyboard glow */
+        .keyboard {
+          position: absolute;
+          bottom: 22px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 12px;
+          background: linear-gradient(180deg, #23232f 0%, #1a1a25 100%);
+          border-radius: 3px;
+          border: 1px solid #2d2d4e;
+          box-shadow: 0 0 8px rgba(99,102,241,0.2);
+          z-index: 10;
+        }
+        .keyboard::after {
+          content: '';
+          position: absolute;
+          inset: 2px;
+          background: repeating-linear-gradient(
+            90deg,
+            rgba(99,102,241,0.3) 0px,
+            rgba(99,102,241,0.3) 3px,
+            transparent 3px,
+            transparent 6px
+          );
+          border-radius: 1px;
+          animation: keyGlow 0.3s ease infinite alternate;
+        }
+        @keyframes keyGlow {
+          from { opacity: 0.5; }
+          to { opacity: 1; }
+        }
+
+        /* Chibi character body */
+        .chibi {
+          position: absolute;
+          bottom: 28px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 5;
+        }
+
+        /* Head */
+        .chibi-head {
+          width: 38px;
+          height: 38px;
+          background: linear-gradient(160deg, #fdd9b5 60%, #f5b97c 100%);
+          border-radius: 50%;
+          position: relative;
+          margin: 0 auto;
+          animation: headBob 2s ease-in-out infinite;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        @keyframes headBob {
+          0%, 100% { transform: translateY(0) rotate(-3deg); }
+          50% { transform: translateY(-3px) rotate(3deg); }
+        }
+
+        /* Hair */
+        .chibi-hair {
+          position: absolute;
+          top: -4px;
+          left: -3px;
+          right: -3px;
+          height: 20px;
+          background: #1a0a00;
+          border-radius: 50% 50% 0 0;
+          z-index: 1;
+        }
+        .chibi-hair::after {
+          content: '';
+          position: absolute;
+          top: 12px;
+          right: -5px;
+          width: 10px;
+          height: 16px;
+          background: #1a0a00;
+          border-radius: 0 50% 50% 0;
+        }
+        .chibi-hair::before {
+          content: '';
+          position: absolute;
+          top: 10px;
+          left: -2px;
+          width: 8px;
+          height: 14px;
+          background: #1a0a00;
+          border-radius: 50% 0 50% 50%;
+        }
+
+        /* Eyes */
+        .chibi-eyes {
+          position: absolute;
+          top: 16px;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+          z-index: 2;
+          animation: eyeBlink 4s ease-in-out infinite;
+        }
+        .chibi-eye {
+          width: 6px;
+          height: 7px;
+          background: #1a0a00;
+          border-radius: 50%;
+          position: relative;
+        }
+        .chibi-eye::after {
+          content: '';
+          position: absolute;
+          top: 1px;
+          right: 1px;
+          width: 2px;
+          height: 2px;
+          background: white;
+          border-radius: 50%;
+        }
+        @keyframes eyeBlink {
+          0%, 90%, 100% { transform: scaleY(1); }
+          95% { transform: scaleY(0.1); }
+        }
+
+        /* Mouth */
+        .chibi-mouth {
+          position: absolute;
+          bottom: 8px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 10px;
+          height: 5px;
+          border-bottom: 2px solid #c97b5a;
+          border-radius: 0 0 50% 50%;
+          z-index: 2;
+        }
+
+        /* Ears */
+        .chibi-ear {
+          position: absolute;
+          top: 12px;
+          width: 8px;
+          height: 10px;
+          background: #fdd9b5;
+          border-radius: 50%;
+        }
+        .chibi-ear.left { left: -3px; }
+        .chibi-ear.right { right: -3px; }
+
+        /* Headphones */
+        .chibi-headphones {
+          position: absolute;
+          top: -2px;
+          left: -5px;
+          right: -5px;
+          height: 14px;
+          border: 3px solid #4f46e5;
+          border-bottom: none;
+          border-radius: 50% 50% 0 0;
+          z-index: 3;
+        }
+        .chibi-headphones::before {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          left: -5px;
+          width: 8px;
+          height: 8px;
+          background: #4f46e5;
+          border-radius: 3px;
+        }
+        .chibi-headphones::after {
+          content: '';
+          position: absolute;
+          bottom: -8px;
+          right: -5px;
+          width: 8px;
+          height: 8px;
+          background: #4f46e5;
+          border-radius: 3px;
+        }
+
+        /* Body */
+        .chibi-body {
+          width: 36px;
+          height: 30px;
+          background: linear-gradient(160deg, #312e81 0%, #1e1b4b 100%);
+          border-radius: 8px 8px 4px 4px;
+          margin: 0 auto;
+          position: relative;
+          margin-top: -2px;
+        }
+        .chibi-body::before {
+          content: '';
+          position: absolute;
+          top: 4px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 14px;
+          height: 10px;
+          border: 1.5px solid rgba(99,102,241,0.5);
+          border-radius: 0 0 50% 50%;
+        }
+
+        /* Arms */
+        .chibi-arm {
+          position: absolute;
+          top: 4px;
+          width: 12px;
+          height: 22px;
+          background: linear-gradient(160deg, #312e81 0%, #1e1b4b 100%);
+          border-radius: 6px;
+        }
+        .chibi-arm.left {
+          left: -10px;
+          transform-origin: top center;
+          animation: leftArm 0.4s ease-in-out infinite alternate;
+        }
+        .chibi-arm.right {
+          right: -10px;
+          transform-origin: top center;
+          animation: rightArm 0.4s ease-in-out infinite alternate;
+        }
+        @keyframes leftArm {
+          from { transform: rotate(25deg); }
+          to { transform: rotate(35deg); }
+        }
+        @keyframes rightArm {
+          from { transform: rotate(-30deg); }
+          to { transform: rotate(-20deg); }
+        }
+
+        /* Hands */
+        .chibi-hand {
+          position: absolute;
+          bottom: -4px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 9px;
+          height: 9px;
+          background: #fdd9b5;
+          border-radius: 50%;
+        }
+
+        /* Legs */
+        .chibi-legs {
+          display: flex;
+          justify-content: center;
+          gap: 4px;
+          margin-top: -1px;
+        }
+        .chibi-leg {
+          width: 13px;
+          height: 16px;
+          background: #1e1b4b;
+          border-radius: 4px 4px 6px 6px;
+          position: relative;
+          animation: legSwing 2s ease-in-out infinite;
+        }
+        .chibi-leg:nth-child(2) { animation-delay: 0.1s; }
+        .chibi-leg::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: -2px;
+          width: 16px;
+          height: 7px;
+          background: #312e81;
+          border-radius: 3px 5px 5px 3px;
+        }
+        @keyframes legSwing {
+          0%, 100% { transform: none; }
+          50% { transform: translateY(1px); }
+        }
+
+        /* Coffee cup */
+        .coffee {
+          position: absolute;
+          bottom: 24px;
+          right: 90px;
+          z-index: 10;
+        }
+        .coffee-cup {
+          width: 14px;
+          height: 14px;
+          background: #c8a97e;
+          border-radius: 1px 1px 4px 4px;
+          position: relative;
+        }
+        .coffee-cup::before {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 1px;
+          right: 1px;
+          height: 4px;
+          background: #6b3f1f;
+          border-radius: 2px;
+        }
+        .coffee-cup::after {
+          content: '';
+          position: absolute;
+          right: -5px;
+          top: 4px;
+          width: 6px;
+          height: 6px;
+          border: 2px solid #c8a97e;
+          border-radius: 0 50% 50% 0;
+          border-left: none;
+        }
+        .steam {
+          position: absolute;
+          top: -10px;
+          left: 2px;
+          display: flex;
+          gap: 3px;
+        }
+        .steam-line {
+          width: 2px;
+          height: 8px;
+          background: rgba(255,255,255,0.3);
+          border-radius: 2px;
+          animation: steam 1.5s ease-in-out infinite;
+        }
+        .steam-line:nth-child(2) { animation-delay: 0.5s; height: 6px; }
+        @keyframes steam {
+          0% { transform: translateY(0) scaleX(1); opacity: 0.3; }
+          50% { transform: translateY(-5px) scaleX(1.5); opacity: 0.6; }
+          100% { transform: translateY(-10px) scaleX(0.5); opacity: 0; }
+        }
+
+        /* Glow effects */
+        .monitor-glow {
+          position: absolute;
+          bottom: 24px;
+          width: 80px;
+          height: 60px;
+          border-radius: 6px;
+          pointer-events: none;
+          filter: blur(12px);
+          opacity: 0.15;
+          background: #6366f1;
+          animation: glowPulse 2s ease-in-out infinite;
+        }
+        .monitor-glow.left { left: 4px; }
+        .monitor-glow.right { right: 4px; }
+        @keyframes glowPulse {
+          0%, 100% { opacity: 0.12; }
+          50% { opacity: 0.22; }
+        }
+      `}</style>
+
+      <div className="monitor-glow left" />
+      <div className="monitor-glow right" />
+
+      <div className="monitor left">
+        <div className="monitor-screen">
+          {[...Array(8)].map((_, i) => <div key={i} className="code-line" />)}
+        </div>
+        <div className="cursor" />
+      </div>
+
+      <div className="monitor right">
+        <div className="monitor-screen">
+          {[...Array(8)].map((_, i) => <div key={i} className="code-line" />)}
+        </div>
+      </div>
+
+      <div className="keyboard" />
+
+      <div className="coffee">
+        <div className="steam">
+          <div className="steam-line" />
+          <div className="steam-line" />
+        </div>
+        <div className="coffee-cup" />
+      </div>
+
+      <div className="chibi">
+        <div className="chibi-head">
+          <div className="chibi-hair" />
+          <div className="chibi-ear left" />
+          <div className="chibi-ear right" />
+          <div className="chibi-headphones" />
+          <div className="chibi-eyes">
+            <div className="chibi-eye" />
+            <div className="chibi-eye" />
+          </div>
+          <div className="chibi-mouth" />
+        </div>
+        <div className="chibi-body">
+          <div className="chibi-arm left"><div className="chibi-hand" /></div>
+          <div className="chibi-arm right"><div className="chibi-hand" /></div>
+        </div>
+        <div className="chibi-legs">
+          <div className="chibi-leg" />
+          <div className="chibi-leg" />
+        </div>
+      </div>
+
+      <div className="desk">
+        <div className="desk-leg left" />
+        <div className="desk-leg right" />
+      </div>
+    </div>
+  );
+}
+
+function SkillTag({ name }: { name: string }) {
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        padding: "6px 14px",
+        fontSize: "13px",
+        fontWeight: 500,
+        borderRadius: "8px",
+        background: "rgba(99,102,241,0.08)",
+        border: "1px solid rgba(99,102,241,0.18)",
+        color: "#a5b4fc",
+        transition: "all 0.2s ease",
+        cursor: "default",
+        letterSpacing: "0.01em",
+      }}
+      onMouseEnter={e => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = "rgba(99,102,241,0.18)";
+        el.style.borderColor = "rgba(99,102,241,0.5)";
+        el.style.color = "#c7d2fe";
+        el.style.transform = "translateY(-2px)";
+        el.style.boxShadow = "0 4px 15px rgba(99,102,241,0.2)";
+      }}
+      onMouseLeave={e => {
+        const el = e.currentTarget as HTMLElement;
+        el.style.background = "rgba(99,102,241,0.08)";
+        el.style.borderColor = "rgba(99,102,241,0.18)";
+        el.style.color = "#a5b4fc";
+        el.style.transform = "translateY(0)";
+        el.style.boxShadow = "none";
+      }}
+    >
+      {name}
+    </span>
+  );
+}
+
+export default function Skills() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <section
+      id="skills"
+      className="py-24 relative overflow-hidden"
+      style={{ background: "rgba(255,255,255,0.015)" }}
+    >
+      {/* Ambient glow */}
+      <div style={{
+        position: "absolute",
+        top: "10%",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "600px",
+        height: "300px",
+        background: "radial-gradient(ellipse, rgba(99,102,241,0.06) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+
+        {/* Header + chibi */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: "56px",
+          gap: "24px",
+          flexWrap: "wrap",
+        }}>
+          <div>
+            <p style={{
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#818cf8",
+              marginBottom: "10px",
+            }}>
+              Technical Skills
+            </p>
+            <h2 style={{
+              fontSize: "clamp(28px, 4vw, 42px)",
+              fontWeight: 800,
+              color: "#f1f5f9",
+              lineHeight: 1.15,
+              letterSpacing: "-0.02em",
+              margin: 0,
+            }}>
+              Technologies<br />
+              <span style={{ color: "#818cf8" }}>I Work With</span>
+            </h2>
+          </div>
+          <ChibiCoder />
+        </div>
+
+        {/* Skill groups grid */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gap: "20px",
+        }}>
+          {skills.map((group, gi) => (
+            <div
+              key={group.category}
+              style={{
+                borderRadius: "16px",
+                padding: "24px",
+                background: "rgba(255,255,255,0.025)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                backdropFilter: "blur(8px)",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(20px)",
+                transition: `opacity 0.5s ease ${gi * 0.08}s, transform 0.5s ease ${gi * 0.08}s`,
+              }}
+            >
+              <div style={{ marginBottom: "18px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <div style={{
+                  width: "3px",
+                  height: "14px",
+                  background: "linear-gradient(180deg, #6366f1, #8b5cf6)",
+                  borderRadius: "2px",
+                  flexShrink: 0,
+                }} />
+                <h3 style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "#818cf8",
+                  margin: 0,
+                }}>
+                  {group.category}
+                </h3>
+              </div>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {group.items.map((skill) => (
+                  <SkillTag key={skill.name} name={skill.name} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tools */}
+        <div style={{
+          marginTop: "48px",
+          textAlign: "center",
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(16px)",
+          transition: "opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s",
+        }}>
+          <p style={{
+            fontSize: "11px",
+            fontWeight: 700,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#4b5563",
+            marginBottom: "20px",
+          }}>
+            Also familiar with
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
+            {[
+              "Git", "GitHub Actions", "Fastlane", "Agile / Scrum",
+              "Docker (basics)", "Linux CLI", "VS Code", "Android Studio",
+            ].map((tool) => (
+              <span
+                key={tool}
+                style={{
+                  padding: "6px 16px",
+                  fontSize: "13px",
+                  borderRadius: "999px",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  color: "#6b7280",
+                  transition: "all 0.2s ease",
+                  cursor: "default",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = "#94a3b8";
+                  el.style.borderColor = "rgba(255,255,255,0.15)";
+                  el.style.background = "rgba(255,255,255,0.07)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.color = "#6b7280";
+                  el.style.borderColor = "rgba(255,255,255,0.08)";
+                  el.style.background = "rgba(255,255,255,0.04)";
+                }}
+              >
+                {tool}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// File: src/components/ThemeToggle.tsx
+"use client";
+
+import { useTheme } from "@/lib/ThemeContext";
+
+export default function ThemeToggle() {
+  const { isDark, toggleTheme } = useTheme();
+
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label="Toggle theme"
+      className="theme-toggle"
+    >
+      <span className="theme-toggle__track">
+        <span className="theme-toggle__thumb" />
+      </span>
+      <span className="theme-toggle__icon">
+        {isDark ? (
+          // Moon icon
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        ) : (
+          // Sun icon
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        )}
+      </span>
+    </button>
+  );
+}
+
+// File: src/lib/data.ts
+export const personalInfo = {
+  name: "John Carlo Victoria Dizon",
+  shortName: "JC Dizon",
+  title: "Full Stack & Mobile Developer",
+  tagline: "Building scalable web apps and mobile experiences — from backend APIs to Play Store deployments.",
+  email: "johncarlovictoriadizon@gmail.com",
+  github: "https://github.com/johncarlo-dizon",
+  portfolio: "https://jc-portfolio-orpin.vercel.app/",
+  linkedin: "https://linkedin.com/in/jcdizon",
+  location: "Philippines",
+  available: true,
+};
+
+export const skills = [
+  {
+    category: "Frontend",
+    items: ["React", "Next.js", "JavaScript", "TypeScript", "PHP (native)", "Java Swing"],
+  },
+  {
+    category: "Backend",
+    items: ["Laravel", "CodeIgniter 4", "Django", "Spring Boot", "RESTful APIs"],
+  },
+  {
+    category: "Mobile",
+    items: ["Flutter", "Dart", "PHP REST API", "Play Store Deployment"],
+  },
+  {
+    category: "Database & Tools",
+    items: ["MySQL", "PostgreSQL", "Supabase", "Git / GitHub", "Docker", "Vercel"],
+  },
+];
+
+export const projects = [
+  // ── Desktop (Java Swing) ──────────────────────────────────────────
+  {
+    title: "Intern Attendance Management System",
+    description:
+      "Desktop system that integrates with biometric devices via LAN to pull real-time OJT attendance data. Automatically generates TDR (Time and Daily Reports) and detailed attendance reports for intern monitoring and compliance.",
+    tags: ["Java", "Java Swing", "PostgreSQL", "Biometrics / LAN"],
+    category: "Desktop",
+    github: "#",
+    live: null,
+    featured: true,
+  },
+  {
+    title: "HR, Timekeeping & Payroll System",
+    description:
+      "Comprehensive desktop system for managing employee records, daily time tracking, and automated payroll computation. Maintained and enhanced for company-wide use, covering leave management, overtime calculation, and payslip generation.",
+    tags: ["Java", "Java Swing", "PostgreSQL"],
+    category: "Desktop",
+    github: "#",
+    live: null,
+    featured: true,
+  },
+  {
+    title: "Head Office POS Maintenance System",
+    description:
+      "Desktop point-of-sale maintenance system developed for the company head office. Handles product catalog management, sales transactions, receipt generation, and inventory tracking.",
+    tags: ["Java", "Java Swing", "PostgreSQL"],
+    category: "Desktop",
+    github: "#",
+    live: null,
+    featured: true,
+  },
+  {
+    title: "Kids Cancervive — Blood Donation Management",
+    description:
+      "Desktop application for managing blood donation drives and bloodletting events. Tracks donor records, blood type inventory, donation history, and generates reports for health coordinators. Maintained and enhanced ongoing.",
+    tags: ["Java", "Java Swing", "PostgreSQL"],
+    category: "Desktop",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+
+  // ── Web ───────────────────────────────────────────────────────────
+  {
+    title: "SyncSpace — Workspace Collaboration System",
+    description:
+      "Full-stack workspace collaboration system with a Kanban board (similar to Trello) for task and project management. Built with Next.js and Supabase, containerized with Docker, and deployed on Vercel.",
+    tags: ["Next.js", "Supabase", "Docker", "Vercel"],
+    category: "Web",
+    github: "#",
+    live: null,
+    featured: true,
+  },
+  {
+    title: "Research Management & Title Verification System",
+    description:
+      "Full-stack Laravel system for managing research documents and verifying title originality. Features plagiarism detection, document versioning, research workflow management, and RESTful APIs consumed by the frontend.",
+    tags: ["Laravel", "PHP", "MySQL", "REST API"],
+    category: "Web",
+    github: "#",
+    live: null,
+    featured: true,
+  },
+  {
+    title: "Clinic Management System",
+    description:
+      "Web-based clinic management system developed for a school health clinic. Manages patient consultations, medical records, appointment scheduling, and health inventory for school staff and students.",
+    tags: ["Laravel", "MySQL", "REST API"],
+    category: "Web",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+  {
+    title: "Point of Sale System",
+    description:
+      "Native PHP web-based POS system for retail operations. Handles product catalog management, sales transactions, receipt generation, inventory tracking, and daily sales reporting.",
+    tags: ["PHP", "MySQL", "JavaScript"],
+    category: "Web",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+
+  // ── Mobile (Flutter) ─────────────────────────────────────────────
+  {
+    title: "Ordering App",
+    description:
+      "Flutter mobile application for placing and managing orders. Features product browsing, cart management, order tracking, and a clean checkout flow with real-time order status updates.",
+    tags: ["Flutter", "Dart", "REST API", "MySQL"],
+    category: "Mobile",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+  {
+    title: "Recipe App",
+    description:
+      "Flutter app for browsing, saving, and sharing recipes. Includes ingredient lists, step-by-step cooking instructions, category filtering, and a favorites feature with local storage.",
+    tags: ["Flutter", "Dart", "REST API"],
+    category: "Mobile",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+  {
+    title: "Note App",
+    description:
+      "Feature-rich Flutter notes application with create, edit, delete, and search functionality. Supports color-coded notes, local SQLite storage, and a responsive grid/list layout.",
+    tags: ["Flutter", "Dart", "SQLite"],
+    category: "Mobile",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+  {
+    title: "Contacts App",
+    description:
+      "Flutter contacts manager app with full CRUD operations, contact grouping, search and filter, and local device storage integration for seamless contact management.",
+    tags: ["Flutter", "Dart", "SQLite"],
+    category: "Mobile",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+  {
+    title: "Quote App",
+    description:
+      "Flutter mobile app that displays inspirational quotes with category filtering, share functionality, and a daily quote notification feature. Clean UI with smooth animations.",
+    tags: ["Flutter", "Dart", "REST API"],
+    category: "Mobile",
+    github: "#",
+    live: null,
+    featured: false,
+  },
+];
+
+export const experience = [
+  {
+    role: "Desktop Application Developer (Intern)",
+    company: "BMware Business Solutions Enterprises Inc.",
+    type: "Internship",
+    period: "Dec 2025 – Present",
+    location: "Pampanga, Philippines",
+    description: [
+      "Developed an Intern Attendance Management System that integrates with biometric devices via LAN to pull and manage OJT attendance data.",
+      "Maintained and enhanced the Kids Cancervive System, a blood donation management application used for tracking donor records and donation history.",
+      "Maintained and improved the company's Human Resource, Time Keeping and Payroll System for internal operations.",
+      "Developed a Head Office POS Maintenance System for point-of-sale management at the company head office.",
+    ],
+  },
+  {
+    role: "Full Stack Developer (Academic Projects)",
+    company: "Holy Cross College",
+    type: "Academic",
+    period: "2022 – Present",
+    location: "Sta. Ana, Pampanga",
+    description: [
+      "Built a Research Management and Title Verification System (Capstone) with plagiarism detection using Laravel and RESTful APIs.",
+      "Developed a Clinic Management System for the school health clinic using Laravel and MySQL.",
+      "Built SyncSpace, a workspace collaboration system with Kanban board using Next.js, Supabase, Docker, and Vercel.",
+      "Created multiple Flutter mobile apps (Ordering, Recipe, Note, Contacts, Quote) with PHP REST API backends.",
+      "Developed a Bloodletting and Blood Donation Management System using Java Swing for community health drives.",
+    ],
+  },
+];
+
+export const education = [
+  {
+    level: "Tertiary",
+    degree: "Bachelor of Science in Information Technology",
+    school: "Holy Cross College",
+    address: "Sta. Lucia, Sta. Ana, Pampanga",
+    period: "2022 – Present",
+    current: true,
+  },
+  {
+    level: "Senior High School",
+    degree: "Senior High School",
+    school: "San Carlos San Luis National High School",
+    address: "San Luis, Pampanga",
+    period: "2020 – 2022",
+    current: false,
+  },
+  {
+    level: "Junior High School",
+    degree: "Junior High School",
+    school: "Dela Paz Libutad High School",
+    address: "Pampanga",
+    period: "2016 – 2020",
+    current: false,
+  },
+  {
+    level: "Primary",
+    degree: "Elementary",
+    school: "San Carlos Elementary School",
+    address: "Pampanga",
+    period: "2014 – 2016",
+    current: false,
+  },
+];
+
+export const achievements = [
+  {
+    title: "President's Lister",
+    school: "Holy Cross College",
+    period: "Multiple Semesters",
+    icon: "🏆",
+  },
+  {
+    title: "Top 1 Performer in the Department",
+    school: "Holy Cross College",
+    period: "SY 2024–2025",
+    icon: "🥇",
+  },
+  {
+    title: "Rank 9 Overall in the College",
+    school: "Holy Cross College",
+    period: "SY 2024–2025",
+    icon: "⭐",
+  },
+  {
+    title: "Top 3 Performer in the Department",
+    school: "Holy Cross College",
+    period: "SY 2022–2023",
+    icon: "🥉",
+  },
+  {
+    title: "Overall Best Project",
+    school: "Holy Cross College",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best Project for Community Extension",
+    school: "Holy Cross College",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best in System",
+    school: "Holy Cross College",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best Presenter",
+    school: "Holy Cross College",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+  {
+    title: "Best in Research Paper",
+    school: "Holy Cross College",
+    period: "SY 2021–2022",
+    icon: "🎖️",
+  },
+];
+
+export const softSkills = [
+  "Problem-Solving",
+  "Team Collaboration",
+  "Adaptability",
+  "Initiative",
+  "Self-directed Learning",
+  "Accountability",
+  "Critical Thinking",
+];
+
+// File: src/lib/ThemeContext.tsx
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
+
+type Theme = "light" | "dark";
+
+interface ThemeContextType {
+  theme: Theme;
+  toggleTheme: () => void;
+  isDark: boolean;
+}
+
+const ThemeContext = createContext<ThemeContextType>({
+  theme: "dark",
+  toggleTheme: () => {},
+  isDark: true,
+});
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const stored = localStorage.getItem("jc-theme") as Theme | null;
+    if (stored) {
+      setTheme(stored);
+    } else {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const root = document.documentElement;
+    root.setAttribute("data-theme", theme);
+    localStorage.setItem("jc-theme", theme);
+  }, [theme, mounted]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  if (!mounted) return null;
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === "dark" }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+export const useTheme = () => useContext(ThemeContext);

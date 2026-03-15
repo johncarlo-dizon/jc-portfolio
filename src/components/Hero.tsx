@@ -1,131 +1,133 @@
 "use client";
+import { useEffect, useState } from "react";
 import { personalInfo } from "@/lib/data";
-import { Github, Linkedin, Mail, ArrowDown, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, ExternalLink, ArrowDown } from "lucide-react";
+import { ChibiHero } from "./ChibiScenes";
+
+const ROLES = ["Full Stack Developer","Mobile Developer","Laravel Developer","Flutter Developer","Backend Developer"];
 
 export default function Hero() {
+  const [roleIdx, setRoleIdx] = useState(0);
+  const [typed, setTyped] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    const target = ROLES[roleIdx];
+    let t: ReturnType<typeof setTimeout>;
+    if (!deleting && typed.length < target.length) t = setTimeout(() => setTyped(target.slice(0, typed.length + 1)), 65);
+    else if (!deleting && typed.length === target.length) t = setTimeout(() => setDeleting(true), 1600);
+    else if (deleting && typed.length > 0) t = setTimeout(() => setTyped(typed.slice(0, -1)), 35);
+    else { setDeleting(false); setRoleIdx(i => (i + 1) % ROLES.length); }
+    return () => clearTimeout(t);
+  }, [typed, deleting, roleIdx]);
+
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" });
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background grid */}
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-grid" />
+      <div style={{ position:"absolute", top:"10%", left:"5%", width:"600px", height:"600px", borderRadius:"50%",
+        background:"radial-gradient(circle, rgba(124,109,250,0.06) 0%, transparent 65%)", pointerEvents:"none" }} />
 
-      {/* Glow orbs */}
-      <div
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)" }}
-      />
-      <div
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%)" }}
-      />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 w-full"
+        style={{ opacity:mounted?1:0, transition:"opacity 0.5s ease" }}>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-        {/* Badge */}
-        <div
-          className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm mb-8"
-          style={{
-            background: "rgba(99,102,241,0.1)",
-            border: "1px solid rgba(99,102,241,0.2)",
-            color: "#a5b4fc",
-          }}
-        >
-          <span className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
-          Full Stack &amp; Mobile Developer
+        {/* Two column layout: text left, chibi right */}
+        <div style={{ display:"grid", gridTemplateColumns:"1fr auto", gap:"48px", alignItems:"center" }}>
+
+          {/* LEFT — text */}
+          <div style={{ maxWidth:"600px" }}>
+            <div style={{ display:"inline-flex", alignItems:"center", gap:"8px",
+              padding:"6px 14px", borderRadius:"999px", marginBottom:"24px",
+              background:"var(--ac-dim)", border:"1px solid var(--ac-b)", color:"var(--ac-l)",
+              fontSize:"12px", fontWeight:500, animation:"fadeInUp 0.6s ease 0.1s both" }}>
+              <span className="pulse-dot" style={{ width:"7px", height:"7px", background:"var(--ac)", borderRadius:"50%", display:"inline-block" }} />
+              Available for opportunities
+            </div>
+
+            <h1 style={{ fontSize:"clamp(44px, 7vw, 84px)", fontWeight:800, lineHeight:1.0,
+              letterSpacing:"-0.03em", marginBottom:"16px", animation:"fadeInUp 0.7s ease 0.2s both" }}>
+              <span style={{ color:"var(--tx2)", fontWeight:600, fontSize:"0.48em", display:"block", marginBottom:"4px" }}>Hi, I&apos;m</span>
+              <span style={{ color:"var(--tx)" }}>JC Dizon</span>
+            </h1>
+
+            <div style={{ height:"28px", marginBottom:"20px", animation:"fadeInUp 0.7s ease 0.35s both" }}>
+              <span style={{ fontSize:"clamp(14px, 2vw, 18px)", fontWeight:500, color:"var(--tx2)", fontFamily:"monospace" }}>
+                {typed}
+                <span style={{ display:"inline-block", width:"2px", height:"1.1em",
+                  background:"var(--tx2)", verticalAlign:"text-bottom", marginLeft:"2px",
+                  animation:"pulse-dot 0.9s step-end infinite" }} />
+              </span>
+            </div>
+
+            <p style={{ fontSize:"15px", color:"var(--tx2)", lineHeight:1.8, marginBottom:"32px",
+              animation:"fadeInUp 0.7s ease 0.45s both" }}>{personalInfo.tagline}</p>
+
+            <div style={{ display:"flex", flexWrap:"wrap", gap:"8px", marginBottom:"32px",
+              animation:"fadeInUp 0.7s ease 0.55s both" }}>
+              {["Flutter","Laravel","Spring Boot","React","Next.js","PostgreSQL"].map(t => (
+                <span key={t} style={{ padding:"4px 12px", fontSize:"12px", fontWeight:500,
+                  borderRadius:"999px", background:"var(--card)", border:"1px solid var(--border-h)", color:"var(--tx2)" }}>{t}</span>
+              ))}
+            </div>
+
+            <div style={{ display:"flex", flexWrap:"wrap", gap:"10px", marginBottom:"32px",
+              animation:"fadeInUp 0.7s ease 0.65s both" }}>
+              <button onClick={() => scrollTo("projects")} style={{
+                display:"inline-flex", alignItems:"center", gap:"8px",
+                padding:"11px 26px", borderRadius:"8px", background:"var(--tx)", color:"var(--bg)",
+                fontSize:"14px", fontWeight:600, border:"none", cursor:"pointer",
+                transition:"all 0.2s", boxShadow:"0 4px 16px var(--ac-glow)" }}
+                onMouseEnter={e => { e.currentTarget.style.opacity="0.85"; e.currentTarget.style.transform="translateY(-2px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.opacity="1"; e.currentTarget.style.transform="none"; }}>
+                View My Work <ExternalLink size={14} />
+              </button>
+              <button onClick={() => scrollTo("contact")} style={{
+                display:"inline-flex", alignItems:"center", gap:"8px",
+                padding:"11px 26px", borderRadius:"8px", background:"transparent",
+                color:"var(--tx)", fontSize:"14px", fontWeight:600,
+                border:"1px solid var(--border-h)", cursor:"pointer", transition:"all 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.background="var(--ac-dim)"; e.currentTarget.style.borderColor="var(--ac-b)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.borderColor="var(--border-h)"; }}>
+                Get In Touch <Mail size={14} />
+              </button>
+            </div>
+
+            <div style={{ display:"flex", gap:"10px", animation:"fadeInUp 0.7s ease 0.75s both" }}>
+              {[
+                { Icon:Github,   href:personalInfo.github,            label:"GitHub"   },
+                { Icon:Linkedin, href:personalInfo.linkedin,          label:"LinkedIn" },
+                { Icon:Mail,     href:`mailto:${personalInfo.email}`, label:"Email"    },
+              ].map(({ Icon, href, label }) => (
+                <a key={label} href={href} target={label!=="Email"?"_blank":undefined} rel="noopener noreferrer"
+                  style={{ width:"40px", height:"40px", borderRadius:"8px", display:"flex",
+                    alignItems:"center", justifyContent:"center",
+                    background:"var(--card)", border:"1px solid var(--border-h)",
+                    color:"var(--tx3)", textDecoration:"none", transition:"all 0.2s" }}
+                  onMouseEnter={e => { const el=e.currentTarget as HTMLAnchorElement; el.style.color="var(--tx)"; el.style.background="var(--ac-dim)"; el.style.transform="translateY(-2px)"; }}
+                  onMouseLeave={e => { const el=e.currentTarget as HTMLAnchorElement; el.style.color="var(--tx3)"; el.style.background="var(--card)"; el.style.transform="none"; }}>
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT — chibi, big and fully visible */}
+          <div style={{
+            display:"flex", alignItems:"center", justifyContent:"center",
+            animation:"fadeInUp 0.8s ease 0.4s both",
+            flexShrink: 0,
+          }} className="hidden md:flex">
+            <ChibiHero />
+          </div>
         </div>
 
-        {/* Name */}
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
-          Hi, I&apos;m{" "}
-          <span
-            style={{
-              background: "linear-gradient(to right, #818cf8, #a78bfa, #c084fc)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            John Carlo
-          </span>
-          <br />
-          <span className="text-4xl md:text-6xl" style={{ color: "#cbd5e1" }}>
-            Dizon
-          </span>
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "#94a3b8" }}>
-          {personalInfo.tagline}
-        </p>
-
-        {/* Tech pill tags */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {["Flutter", "Laravel", "Spring Boot", "React", "CI/CD", "PostgreSQL"].map((tech) => (
-            <span
-              key={tech}
-              className="px-3 py-1 text-xs font-medium rounded-full"
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#94a3b8",
-              }}
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <a
-            href="#projects"
-            className="px-8 py-3 rounded-lg font-semibold text-white flex items-center gap-2 transition-all duration-200"
-            style={{ background: "#6366f1" }}
-            onMouseEnter={e => (e.currentTarget.style.background = "#4f46e5")}
-            onMouseLeave={e => (e.currentTarget.style.background = "#6366f1")}
-          >
-            View My Work <ExternalLink size={16} />
-          </a>
-          <a
-            href="#contact"
-            className="px-8 py-3 rounded-lg font-semibold text-white flex items-center gap-2 transition-all duration-200"
-            style={{
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
-          >
-            Get In Touch <Mail size={16} />
-          </a>
-        </div>
-
-        {/* Social links */}
-        <div className="flex items-center justify-center gap-4 mb-16">
-          {[
-            { icon: Github, href: personalInfo.github, label: "GitHub" },
-            { icon: Linkedin, href: personalInfo.linkedin, label: "LinkedIn" },
-            { icon: Mail, href: `mailto:${personalInfo.email}`, label: "Email" },
-          ].map(({ icon: Icon, href, label }) => (
-            <a
-              key={label}
-              href={href}
-              target={label !== "Email" ? "_blank" : undefined}
-              rel="noopener noreferrer"
-              className="p-3 rounded-lg transition-all duration-200"
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                color: "#94a3b8",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.color = "#fff"; e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
-              onMouseLeave={e => { e.currentTarget.style.color = "#94a3b8"; e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
-            >
-              <Icon size={20} />
-            </a>
-          ))}
-        </div>
-
-        {/* Scroll */}
-        <div className="flex flex-col items-center gap-2" style={{ color: "#4b5563" }}>
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <ArrowDown size={16} className="animate-bounce" />
+        <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-start", gap:"5px",
+          color:"var(--tx3)", marginTop:"52px", animation:"fadeInUp 0.7s ease 0.85s both" }}>
+          <span style={{ fontSize:"10px", letterSpacing:"0.18em", textTransform:"uppercase", fontWeight:600 }}>Scroll</span>
+          <ArrowDown size={14} className="bounce-y" />
         </div>
       </div>
     </section>

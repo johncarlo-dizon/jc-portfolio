@@ -3,8 +3,9 @@ export const personalInfo = {
   shortName: "JC Dizon",
   title: "Full Stack & Mobile Developer",
   tagline: "Building scalable web apps and mobile experiences — from backend APIs to Play Store deployments.",
-  email: "johncarlo.dizon@email.com",
-  github: "https://github.com/jcdizon",
+  email: "johncarlovictoriadizon@gmail.com",
+  github: "https://github.com/johncarlo-dizon",
+  portfolio: "https://jc-portfolio-orpin.vercel.app/",
   linkedin: "https://linkedin.com/in/jcdizon",
   location: "Philippines",
   available: true,
@@ -12,46 +13,35 @@ export const personalInfo = {
 
 export const skills = [
   {
-    category: "Mobile",
-    items: [
-      { name: "Flutter", level: 90 },
-      { name: "Dart", level: 85 },
-      { name: "Play Store Deployment", level: 85 },
-      { name: "CI/CD (GitHub Actions / Fastlane)", level: 80 },
-    ],
+    category: "Frontend",
+    items: ["React", "Next.js", "JavaScript", "TypeScript", "PHP (native)", "Java Swing"],
   },
   {
     category: "Backend",
-    items: [
-      { name: "PHP / Laravel", level: 88 },
-      { name: "CodeIgniter 4", level: 82 },
-      { name: "Spring Boot", level: 78 },
-      { name: "Java", level: 80 },
-      { name: "RESTful APIs", level: 90 },
-    ],
+    items: ["Laravel", "CodeIgniter 4", "Django", "Spring Boot", "RESTful APIs"],
   },
   {
-    category: "Frontend",
-    items: [
-      { name: "React", level: 82 },
-      { name: "Next.js", level: 78 },
-      { name: "JavaScript / TypeScript", level: 80 },
-      { name: "Java Swing", level: 75 },
-    ],
+    category: "Mobile",
+    items: ["Flutter", "Dart", "PHP REST API", "Play Store Deployment"],
   },
   {
     category: "Database & Tools",
-    items: [
-      { name: "MySQL", level: 88 },
-      { name: "PostgreSQL", level: 82 },
-      { name: "Postman", level: 90 },
-      { name: "Git / GitHub", level: 85 },
-    ],
+    items: ["MySQL", "PostgreSQL", "Supabase", "Git / GitHub", "Docker", "Vercel"],
   },
 ];
 
 export const projects = [
   // ── Desktop (Java Swing) ──────────────────────────────────────────
+  {
+    title: "Intern Attendance Management System",
+    description:
+      "Desktop system that integrates with biometric devices via LAN to pull real-time OJT attendance data. Automatically generates TDR (Time and Daily Reports) and detailed attendance reports for intern monitoring and compliance.",
+    tags: ["Java", "Java Swing", "PostgreSQL", "Biometrics / LAN"],
+    category: "Desktop",
+    github: "#",
+    live: null,
+    featured: true,
+  },
   {
     title: "HR, Timekeeping & Payroll System",
     description:
@@ -63,9 +53,9 @@ export const projects = [
     featured: true,
   },
   {
-    title: "Bloodletting & Blood Donation Management System",
+    title: "Head Office POS Maintenance System",
     description:
-      "Desktop application for managing blood donation drives and bloodletting events. Tracks donor records, blood type inventory, donation history, and generates reports for health coordinators.",
+      "Desktop point-of-sale maintenance system developed for the company head office. Handles product catalog management, sales transactions, receipt generation, and inventory tracking.",
     tags: ["Java", "Java Swing", "PostgreSQL"],
     category: "Desktop",
     github: "#",
@@ -73,22 +63,22 @@ export const projects = [
     featured: true,
   },
   {
-    title: "Intern Attendance Management System",
+    title: "Kids Cancervive — Blood Donation Management",
     description:
-      "Desktop system that integrates with biometric devices to pull real-time attendance data. Automatically generates TDR (Time and Daily Reports) and detailed attendance reports for intern monitoring and compliance.",
-    tags: ["Java", "Java Swing", "PostgreSQL", "Biometrics Integration"],
+      "Desktop application for managing blood donation drives and bloodletting events. Tracks donor records, blood type inventory, donation history, and generates reports for health coordinators. Maintained and enhanced ongoing.",
+    tags: ["Java", "Java Swing", "PostgreSQL"],
     category: "Desktop",
     github: "#",
     live: null,
-    featured: true,
+    featured: false,
   },
 
   // ── Web ───────────────────────────────────────────────────────────
   {
-    title: "Clinic Management System",
+    title: "SyncSpace — Workspace Collaboration System",
     description:
-      "Web-based clinic management system developed for a school health clinic. Manages patient consultations, medical records, appointment scheduling, and health inventory for school staff and students.",
-    tags: ["Laravel", "MySQL", "REST API", "Postman"],
+      "Full-stack workspace collaboration system with a Kanban board (similar to Trello) for task and project management. Built with Next.js and Supabase, containerized with Docker, and deployed on Vercel.",
+    tags: ["Next.js", "Supabase", "Docker", "Vercel"],
     category: "Web",
     github: "#",
     live: null,
@@ -98,11 +88,21 @@ export const projects = [
     title: "Research Management & Title Verification System",
     description:
       "Full-stack Laravel system for managing research documents and verifying title originality. Features plagiarism detection, document versioning, research workflow management, and RESTful APIs consumed by the frontend.",
-    tags: ["Laravel", "PHP", "MySQL", "REST API", "Plagiarism Detection"],
+    tags: ["Laravel", "PHP", "MySQL", "REST API"],
     category: "Web",
     github: "#",
     live: null,
     featured: true,
+  },
+  {
+    title: "Clinic Management System",
+    description:
+      "Web-based clinic management system developed for a school health clinic. Manages patient consultations, medical records, appointment scheduling, and health inventory for school staff and students.",
+    tags: ["Laravel", "MySQL", "REST API"],
+    category: "Web",
+    github: "#",
+    live: null,
+    featured: false,
   },
   {
     title: "Point of Sale System",
@@ -137,16 +137,6 @@ export const projects = [
     featured: false,
   },
   {
-    title: "Quote App",
-    description:
-      "Flutter mobile app that displays inspirational quotes with category filtering, share functionality, and a daily quote notification feature. Clean UI with smooth animations.",
-    tags: ["Flutter", "Dart", "REST API"],
-    category: "Mobile",
-    github: "#",
-    live: null,
-    featured: false,
-  },
-  {
     title: "Note App",
     description:
       "Feature-rich Flutter notes application with create, edit, delete, and search functionality. Supports color-coded notes, local SQLite storage, and a responsive grid/list layout.",
@@ -166,33 +156,43 @@ export const projects = [
     live: null,
     featured: false,
   },
+  {
+    title: "Quote App",
+    description:
+      "Flutter mobile app that displays inspirational quotes with category filtering, share functionality, and a daily quote notification feature. Clean UI with smooth animations.",
+    tags: ["Flutter", "Dart", "REST API"],
+    category: "Mobile",
+    github: "#",
+    live: null,
+    featured: false,
+  },
 ];
-
 
 export const experience = [
   {
     role: "Desktop Application Developer (Intern)",
-    company: "BMware Company",
+    company: "BMware Business Solutions Enterprises Inc.",
     type: "Internship",
-    period: "2025-2026",
+    period: "Dec 2025 – Present",
     location: "Pampanga, Philippines",
     description: [
-      "Maintained and enhanced the company's HR, Timekeeping, and Payroll desktop system built with Java Swing and PostgreSQL.",
-      "Developed an Intern Attendance Management System that integrates with biometric devices to pull attendance data automatically.",
-      "Implemented automated generation of TDR (Time and Daily Reports) and attendance summary reports for management.",
-      "Collaborated with the development team to identify bugs, improve system performance, and add new features based on company requirements.",
+      "Developed an Intern Attendance Management System that integrates with biometric devices via LAN to automatically pull and manage OJT attendance data.",
+      "Maintained and enhanced the Kids Cancervive System, a blood donation management application used for tracking donor records and donation history.",
+      "Maintained and improved the company's Human Resource, Time Keeping and Payroll System for internal operations.",
+      "Developed a Head Office POS Maintenance System for point-of-sale management at the company head office.",
     ],
   },
   {
-    role: "Full Stack Developer (College Projects)",
+    role: "Full Stack Developer (Academic Projects)",
     company: "Holy Cross College",
     type: "Academic",
     period: "2022 – Present",
     location: "Sta. Ana, Pampanga",
     description: [
-      "Built a Research Management and Title Verification System with plagiarism detection using Laravel and RESTful APIs.",
+      "Built a Research Management and Title Verification System (Capstone) with plagiarism detection using Laravel and RESTful APIs.",
       "Developed a Clinic Management System for the school health clinic using Laravel and MySQL.",
-      "Created multiple Flutter mobile apps including an Ordering App, Recipe App, Quote App, Note App, and Contacts App.",
+      "Built SyncSpace, a workspace collaboration system with Kanban board using Next.js, Supabase, Docker, and Vercel.",
+      "Created multiple Flutter mobile apps (Ordering, Recipe, Note, Contacts, Quote) with PHP REST API backends.",
       "Developed a Bloodletting and Blood Donation Management System using Java Swing for community health drives.",
     ],
   },
@@ -248,7 +248,7 @@ export const achievements = [
   },
   {
     title: "Rank 9 Overall in the College",
-   school: "Holy Cross College",
+    school: "Holy Cross College",
     period: "SY 2024–2025",
     icon: "⭐",
   },
@@ -257,6 +257,12 @@ export const achievements = [
     school: "Holy Cross College",
     period: "SY 2022–2023",
     icon: "🥉",
+  },
+  {
+    title: "Overall Best Project",
+    school: "Holy Cross College",
+    period: "SY 2021–2022",
+    icon: "🎖️",
   },
   {
     title: "Best Project for Community Extension",
@@ -282,10 +288,14 @@ export const achievements = [
     period: "SY 2021–2022",
     icon: "🎖️",
   },
-  {
-    title: "Overall Best Project",
-    school: "Holy Cross College",
-    period: "SY 2021–2022",
-    icon: "🎖️",
-  },
+];
+
+export const softSkills = [
+  "Problem-Solving",
+  "Team Collaboration",
+  "Adaptability",
+  "Initiative",
+  "Self-directed Learning",
+  "Accountability",
+  "Critical Thinking",
 ];
