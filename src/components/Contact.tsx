@@ -157,13 +157,7 @@ export default function Contact() {
               <MapPin size={13} color="var(--tx3)"/>
               <span style={{ fontSize:"13px", color:"var(--tx2)" }}>Based in {personalInfo.location} · Remote-friendly</span>
             </div>
-            <div style={{ padding:"12px 16px", background:"rgba(251,191,36,0.05)", border:"1px solid rgba(251,191,36,0.15)", borderRadius:"10px" }}>
-              <p style={{ fontSize:"11px", color:"var(--amber)", fontWeight:700, marginBottom:"3px" }}>⚙️ SMTP Setup</p>
-              <p style={{ fontSize:"11px", color:"var(--tx3)", lineHeight:1.6 }}>
-                Add <code style={{ color:"var(--tx2)", background:"var(--bg3)", padding:"1px 5px", borderRadius:"3px" }}>SMTP_USER</code> and{" "}
-                <code style={{ color:"var(--tx2)", background:"var(--bg3)", padding:"1px 5px", borderRadius:"3px" }}>SMTP_PASS</code> to <code style={{ color:"var(--amber)" }}>.env.local</code>.
-              </p>
-            </div>
+        
           </div>
         </div>
       </div>
