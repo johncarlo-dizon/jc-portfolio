@@ -48,15 +48,9 @@ export default function Hero() {
 
           {/* Text */}
           <div style={{ maxWidth:"620px" }}>
-            <div style={{ display:"inline-flex", alignItems:"center", gap:"8px",
-              padding:"6px 14px", borderRadius:"999px", marginBottom:"24px",
-              background:"var(--ac-dim)", border:"1px solid var(--ac-b)", color:"var(--ac-l)",
-              fontSize:"12px", fontWeight:500, animation:"fadeInUp 0.6s ease 0.1s both" }}>
-              <span className="pulse-dot" style={{ width:"7px", height:"7px", background:"var(--ac)", borderRadius:"50%", display:"inline-block" }} />
-              Available for opportunities
-            </div>
+         
 
-            <h1 style={{ fontWeight:800, lineHeight:1.0, letterSpacing:"-0.03em", marginBottom:"16px",
+            <h1 style={{ fontWeight:800, lineHeight:1.0, letterSpacing:"-0.03em", marginBottom:"16px", marginTop:"25px",
               animation:"fadeInUp 0.7s ease 0.2s both",
               fontSize:"clamp(40px, 8vw, 84px)" }}>
               <span style={{ color:"var(--tx2)", fontWeight:600, fontSize:"0.48em", display:"block", marginBottom:"4px" }}>Hi, I&apos;m</span>
