@@ -154,32 +154,7 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Achievements */}
-        <div ref={ach.ref}>
-          <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"18px",
-            opacity:ach.on?1:0, transform:ach.on?"none":"translateY(16px)", transition:"opacity 0.55s, transform 0.55s" }}>
-            <div style={{ width:"32px", height:"32px", borderRadius:"9px",
-              background:"rgba(251,191,36,0.1)", border:"1px solid rgba(251,191,36,0.25)",
-              display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <Trophy size={14} color="var(--amber)"/>
-            </div>
-            <h3 style={{ fontSize:"15px", fontWeight:700, color:"var(--tx)", margin:0 }}>Achievements</h3>
-          </div>
-          <div className="ach-grid">
-            {achievements.map((a, i) => (
-              <div key={i} className="card" style={{ padding:"13px 15px", display:"flex", alignItems:"flex-start", gap:"10px",
-                opacity:ach.on?1:0, transform:ach.on?"none":"translateY(14px)",
-                transition:`opacity 0.45s ease ${i*0.05}s, transform 0.45s ease ${i*0.05}s` }}>
-                <span style={{ fontSize:"18px", lineHeight:1, flexShrink:0 }}>{a.icon}</span>
-                <div>
-                  <h4 style={{ fontSize:"12px", fontWeight:600, color:"var(--tx)", lineHeight:1.35, marginBottom:"2px" }}>{a.title}</h4>
-                  <p style={{ fontSize:"11px", color:"var(--tx3)" }}>{a.school}</p>
-                  <p style={{ fontSize:"10px", fontFamily:"monospace", color:"var(--tx3)", marginTop:"2px" }}>{a.period}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    
       </div>
     </section>
   );
