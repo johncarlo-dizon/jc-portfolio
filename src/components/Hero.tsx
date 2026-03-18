@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { personalInfo } from "@/lib/data";
 import { Github, Linkedin, Mail, ExternalLink, ArrowDown } from "lucide-react";
 
-const ROLES = ["Full Stack Developer","Mobile Developer","Laravel Developer","Flutter Developer","Backend Developer"];
+const ROLES = ["Mobile Developer","Web Developer","Desktop Developer"];
 
 export default function Hero() {
   const [roleIdx,  setRoleIdx]  = useState(0);
@@ -159,7 +159,7 @@ export default function Hero() {
           </p>
 
           <div style={{ display:"flex", flexWrap:"wrap", gap:"7px", marginBottom:"28px", animation:"fadeInUp .7s ease .55s both" }}>
-            {["Flutter","Laravel","Spring Boot","React","Next.js","PostgreSQL"].map(t=>(
+            {["Flutter","Laravel","Java","React","PostgreSQL","Git"].map(t=>(
               <span key={t} className="hp-tag">{t}</span>
             ))}
           </div>
