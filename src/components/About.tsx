@@ -39,10 +39,7 @@ export default function About() {
       `}</style>
       <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"0 1.25rem" }}>
 
-        {/* Chibi top-left — hidden on mobile */}
-        <div className="about-chibi-wrap" ref={header.ref} style={{ ...header.style, justifyContent:"flex-start", marginBottom:"0" }}>
-          <ChibiAbout />
-        </div>
+   
 
         <div className="about-inner">
           <div ref={left.ref} style={left.style}>

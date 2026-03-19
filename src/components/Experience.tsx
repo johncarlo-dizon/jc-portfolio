@@ -46,9 +46,7 @@ export default function Experience() {
             <span className="section-label">Background</span>
             <h2 className="section-heading">Experience <span>&amp;</span> Education</h2>
           </div>
-          <div className="exp-chibi" style={{ opacity:header.on?1:0, transition:"opacity 0.7s ease 0.3s" }}>
-            <ChibiExperience />
-          </div>
+   
         </div>
 
         <div className="exp-cols">

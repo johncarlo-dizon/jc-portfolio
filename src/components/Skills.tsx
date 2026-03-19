@@ -334,16 +334,7 @@ export default function Skills() {
           </div>
         </div>
 
-        {/* Chibi */}
-        <div ref={chibi.ref} className="sk-chibi-wrap" style={{
-          opacity: chibi.on ? 1 : 0, transform: chibi.on ? "none" : "translateY(30px)",
-          transition: "opacity .7s ease .3s, transform .7s ease .3s",
-        }}>
-          <div style={{ position: "relative" }}>
-            <div style={{ position: "absolute", bottom: "8px", left: "50%", transform: "translateX(-50%)", width: "300px", height: "1px", background: "var(--border-h)" }} />
-            <ChibiCoder />
-          </div>
-        </div>
+  
       </div>
     </section>
   );

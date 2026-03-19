@@ -54,9 +54,7 @@ export default function Projects() {
               Real applications shipped across web, mobile, and desktop.
             </p>
           </div>
-          <div className="proj-chibi" style={{ opacity:header.on?1:0, transition:"opacity 0.6s ease 0.2s" }}>
-            <ChibiProjects />
-          </div>
+       
         </div>
 
         <div style={{ display:"flex", gap:"8px", marginBottom:"28px", flexWrap:"wrap",
