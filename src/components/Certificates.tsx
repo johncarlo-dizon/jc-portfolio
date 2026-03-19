@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { X, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 function useReveal(threshold = 0.08) {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,42 +34,52 @@ const certificates = [
   { file: "cerofrecog_embracingthelightofinnovation.jpeg", title: "Certificate of Recognition — Embracing the Light of Innovation", category: "Recognition",         year: "2024" },
 ];
 
-const CATS = ["All", "Academic Excellence", "Project Award", "Recognition"];
+const CATEGORIES = ["Academic Excellence", "Project Award", "Recognition"];
 
-const CAT_META: Record<string, { dot: string; bg: string; border: string; text: string }> = {
-  "Academic Excellence": { dot: "#d97706", bg: "rgba(217,119,6,0.08)",  border: "rgba(217,119,6,0.2)",  text: "#d97706" },
-  "Project Award":       { dot: "#059669", bg: "rgba(5,150,105,0.08)",  border: "rgba(5,150,105,0.2)",  text: "#059669" },
-  "Recognition":         { dot: "#7c3aed", bg: "rgba(124,58,237,0.08)", border: "rgba(124,58,237,0.2)", text: "#7c3aed" },
-};
-
-const groupByYear = (list: typeof certificates) => {
-  const map = new Map<string, typeof certificates>();
-  list.forEach(c => {
-    if (!map.has(c.year)) map.set(c.year, []);
-    map.get(c.year)!.push(c);
-  });
-  return Array.from(map.entries()).sort((a, b) => b[0].localeCompare(a[0]));
+const CAT_STYLE: Record<string, {
+  dot: string;
+  label: string;
+  accentColor: string;
+  groupBorder: string;
+}> = {
+  "Academic Excellence": {
+    dot:          "#d97706",
+    label:        "#d97706",
+    accentColor:  "#d97706",
+    groupBorder:  "rgba(217,119,6,0.3)",
+  },
+  "Project Award": {
+    dot:          "#059669",
+    label:        "#059669",
+    accentColor:  "#059669",
+    groupBorder:  "rgba(5,150,105,0.3)",
+  },
+  "Recognition": {
+    dot:          "#7c3aed",
+    label:        "#7c3aed",
+    accentColor:  "#7c3aed",
+    groupBorder:  "rgba(124,58,237,0.3)",
+  },
 };
 
 export default function Certificates() {
   const header = useReveal();
   const body   = useReveal(0.04);
 
-  const [filter, setFilter] = useState("All");
-  const [lightbox, setLb]   = useState<number | null>(null);
+  const [lightbox, setLb] = useState<number | null>(null);
 
-  const list   = filter === "All" ? certificates : certificates.filter(c => c.category === filter);
-  const groups = groupByYear(list);
-  const lbCert = lightbox !== null ? list[lightbox] : null;
+  const prev = useCallback(() =>
+    setLb(i => i !== null ? (i - 1 + certificates.length) % certificates.length : null), []);
+  const next = useCallback(() =>
+    setLb(i => i !== null ? (i + 1) % certificates.length : null), []);
 
-  const prev = useCallback(() => setLb(i => i !== null ? (i - 1 + list.length) % list.length : null), [list.length]);
-  const next = useCallback(() => setLb(i => i !== null ? (i + 1) % list.length : null), [list.length]);
+  const lbCert = lightbox !== null ? certificates[lightbox] : null;
 
-  useEffect(() => { setLb(null); }, [filter]);
   useEffect(() => {
     document.body.style.overflow = lightbox !== null ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [lightbox]);
+
   useEffect(() => {
     if (lightbox === null) return;
     const fn = (e: KeyboardEvent) => {
@@ -84,96 +94,74 @@ export default function Certificates() {
   return (
     <section id="certificates" style={{ padding: "4rem 0", background: "var(--bg3)" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
-
-        /* pills */
-        .crt-pill {
-          padding: 4px 14px; border-radius: 999px; font-size: 12px; font-weight: 500;
-          cursor: pointer; border: 1px solid var(--border); background: var(--card);
-          color: var(--tx2); transition: all .15s; white-space: nowrap;
-        }
-        .crt-pill.active { background: var(--tx); color: var(--bg); border-color: transparent; }
-        .crt-pill:hover:not(.active) { border-color: var(--border-h); color: var(--tx); }
-
-        /* stats — inline, compact */
-        .crt-stats {
-          display: inline-flex;
-          align-items: center;
-          gap: 0;
-          background: var(--card);
+        /* ── group block ── */
+        .crt-group {
+          border-radius: 16px;
           border: 1px solid var(--border);
-          border-radius: 12px;
+          background: var(--card);
           overflow: hidden;
-          margin-bottom: 20px;
+          margin-bottom: 12px;
         }
-        .crt-stat {
-          padding: 10px 18px;
-          border-right: 1px solid var(--border);
-          display: flex; flex-direction: column; gap: 1px;
-        }
-        .crt-stat:last-child { border-right: none; }
-        .crt-stat-num {
-          font-size: 18px; font-weight: 700; color: var(--tx); line-height: 1;
-        }
-        .crt-stat-lbl { font-size: 10px; color: var(--tx3); white-space: nowrap; }
+        .crt-group:last-child { margin-bottom: 0; }
 
-        /* year divider */
-        .crt-year-label {
-          font-size: 10px; font-weight: 700; letter-spacing: .12em;
-          text-transform: uppercase; color: var(--tx3);
-          display: flex; align-items: center; gap: 10px;
-          margin: 24px 0 0;
-          padding-bottom: 8px;
-        }
-        .crt-year-label::after {
-          content: ''; flex: 1; height: 1px; background: var(--border);
-        }
-
-        /* cert row — key fix: block layout, not flex stretching */
-        .crt-row {
+        .crt-group-header {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 12px 4px;
+          gap: 8px;
+          padding: 11px 16px;
           border-bottom: 1px solid var(--border);
+          background: var(--bg2);
+        }
+        .crt-group-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%; flex-shrink: 0;
+        }
+        .crt-group-label {
+          font-size: 11px; font-weight: 700;
+          letter-spacing: .09em; text-transform: uppercase;
+          flex: 1;
+        }
+        .crt-group-count {
+          font-size: 11px; font-family: monospace; color: var(--tx3);
+        }
+
+        .crt-group-pills {
+          padding: 14px 16px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        /* ── pill — white card, colored left border ── */
+        .crt-pill {
+          padding: 9px 13px;
+          border-radius: 0 10px 10px 0;
+          border: 1px solid var(--border);
+          border-left-width: 3px;
+          background: var(--bg3);
           cursor: pointer;
-          transition: padding-left .15s;
+          transition: background .15s, transform .15s;
+          display: inline-flex;
+          flex-direction: column;
+          gap: 3px;
         }
-        .crt-row:first-of-type { border-top: 1px solid var(--border); }
-        .crt-row:hover { padding-left: 8px; }
-        .crt-row:hover .crt-row-title { color: var(--tx); }
-        .crt-row:hover .crt-row-arrow { opacity: 1; transform: translate(1px,-1px); }
-
-        .crt-row-num {
-          font-size: 10px; font-family: monospace; color: var(--tx3);
-          width: 22px; flex-shrink: 0; text-align: right;
+        .crt-pill:hover {
+          background: var(--bg2);
+          transform: translateY(-1px);
         }
-        .crt-row-badge {
-          display: inline-flex; align-items: center; gap: 4px;
-          padding: 2px 9px; border-radius: 999px;
-          font-size: 9px; font-weight: 700; letter-spacing: .06em;
-          text-transform: uppercase; flex-shrink: 0; white-space: nowrap;
+        .crt-pill-title {
+          font-size: 13px;
+          font-weight: 600;
+          color: var(--tx);
+          line-height: 1.35;
         }
-        .crt-row-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
-
-        /* title takes remaining space — flex:1 + min-width:0 prevents overflow */
-        .crt-row-title {
-          font-family: 'DM Serif Display', Georgia, serif;
-          font-size: 16px; color: var(--tx2);
-          flex: 1; min-width: 0;
-          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-          transition: color .15s; line-height: 1.3;
-        }
-        .crt-row-year {
-          font-size: 10px; color: var(--tx3); font-family: monospace;
-          flex-shrink: 0; white-space: nowrap;
-        }
-        .crt-row-arrow {
-          flex-shrink: 0; color: var(--tx3);
-          opacity: 0; transition: opacity .15s, transform .15s;
+        .crt-pill-year {
+          font-size: 10px;
+          font-family: monospace;
+          color: var(--tx3);
         }
 
-        /* lightbox */
+        /* ── lightbox ── */
         .crt-lb {
           position: fixed; inset: 0; z-index: 9999;
           background: rgba(0,0,0,0.93);
@@ -183,44 +171,50 @@ export default function Certificates() {
         @keyframes lbIn { from { opacity:0 } to { opacity:1 } }
         .crt-lb-inner {
           max-width: 800px; width: 100%;
-          display: flex; flex-direction: column; align-items: center; gap: 14px;
+          display: flex; flex-direction: column;
+          align-items: center; gap: 16px;
         }
         .crt-lb-img {
-          max-width: 100%; max-height: 76vh; object-fit: contain;
-          border-radius: 10px; display: block;
-          box-shadow: 0 24px 80px rgba(0,0,0,.8);
-          animation: imgIn .25s ease;
+          max-width: 100%; max-height: 74vh;
+          object-fit: contain; border-radius: 12px; display: block;
+          box-shadow: 0 24px 80px rgba(0,0,0,.85);
+          animation: imgIn .22s ease;
         }
-        @keyframes imgIn { from { opacity:0; transform:scale(.97) } to { opacity:1; transform:scale(1) } }
-        .crt-lb-title { font-size: 13px; font-weight: 600; color:#fff; text-align:center; }
-        .crt-lb-sub   { font-size: 11px; color:rgba(255,255,255,.38); font-family:monospace; text-align:center; margin-top:3px; }
+        @keyframes imgIn {
+          from { opacity:0; transform:scale(.97) }
+          to   { opacity:1; transform:scale(1) }
+        }
+        .crt-lb-title {
+          font-size: 14px; font-weight: 600;
+          color: #fff; text-align: center;
+        }
+        .crt-lb-sub {
+          font-size: 11px; color: rgba(255,255,255,.38);
+          font-family: monospace; text-align: center; margin-top: 3px;
+        }
         .crt-lb-close {
-          position: fixed; top:18px; right:18px;
-          width:34px; height:34px; border-radius:9px;
-          background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.14);
-          display:flex; align-items:center; justify-content:center;
-          color:#fff; cursor:pointer; transition:background .18s;
+          position: fixed; top: 18px; right: 18px;
+          width: 34px; height: 34px; border-radius: 9px;
+          background: rgba(255,255,255,.1);
+          border: 1px solid rgba(255,255,255,.14);
+          display: flex; align-items: center; justify-content: center;
+          color: #fff; cursor: pointer; transition: background .15s;
         }
-        .crt-lb-close:hover { background:rgba(255,255,255,.2); }
+        .crt-lb-close:hover { background: rgba(255,255,255,.22); }
         .crt-lb-nav {
-          position:fixed; top:50%; transform:translateY(-50%);
-          width:38px; height:38px; border-radius:50%;
-          background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.14);
-          display:flex; align-items:center; justify-content:center;
-          color:#fff; cursor:pointer; transition:background .18s;
+          position: fixed; top: 50%; transform: translateY(-50%);
+          width: 38px; height: 38px; border-radius: 50%;
+          background: rgba(255,255,255,.1);
+          border: 1px solid rgba(255,255,255,.14);
+          display: flex; align-items: center; justify-content: center;
+          color: #fff; cursor: pointer; transition: background .15s;
         }
-        .crt-lb-nav:hover { background:rgba(255,255,255,.2); }
+        .crt-lb-nav:hover { background: rgba(255,255,255,.22); }
         .crt-lb-cnt {
-          position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
-          font-size:11px; color:rgba(255,255,255,.32); font-family:monospace;
-          background:rgba(0,0,0,.5); padding:4px 14px; border-radius:999px;
-          border:1px solid rgba(255,255,255,.07);
-        }
-
-        @media (max-width: 600px) {
-          .crt-row-badge { display: none; }
-          .crt-row-title { font-size: 14px; }
-          .crt-stat { padding: 8px 12px; }
+          position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+          font-size: 11px; color: rgba(255,255,255,.32); font-family: monospace;
+          background: rgba(0,0,0,.5); padding: 4px 14px; border-radius: 999px;
+          border: 1px solid rgba(255,255,255,.07);
         }
       `}</style>
 
@@ -228,71 +222,69 @@ export default function Certificates() {
 
         {/* Header */}
         <div ref={header.ref} style={{
-          marginBottom: "20px",
+          marginBottom: "28px",
           opacity: header.on ? 1 : 0,
-          transform: header.on ? "none" : "translateY(18px)",
-          transition: "opacity .6s ease, transform .6s ease",
+          transform: header.on ? "none" : "translateY(16px)",
+          transition: "opacity .55s ease, transform .55s ease",
         }}>
           <span className="section-label">Achievements</span>
           <h2 className="section-heading" style={{ marginBottom: "6px" }}>
             Certificates &amp; <span>Awards</span>
           </h2>
-          <p style={{ fontSize: "14px", color: "var(--tx2)", lineHeight: 1.7, maxWidth: "460px" }}>
+          <p style={{ fontSize: "14px", color: "var(--tx2)", lineHeight: 1.7, maxWidth: "440px" }}>
             Academic recognitions and project awards from Holy Cross College.
           </p>
         </div>
 
+        {/* Groups */}
         <div ref={body.ref} style={{
           opacity: body.on ? 1 : 0,
-          transform: body.on ? "none" : "translateY(18px)",
-          transition: "opacity .6s ease .08s, transform .6s ease .08s",
+          transform: body.on ? "none" : "translateY(16px)",
+          transition: "opacity .55s ease .08s, transform .55s ease .08s",
         }}>
+          {CATEGORIES.map((cat, gi) => {
+            const s = CAT_STYLE[cat];
+            const items = certificates.filter(c => c.category === cat);
+            return (
+              <div
+                key={cat}
+                className="crt-group"
+                style={{
+                  borderColor: s.groupBorder,
+                  animationDelay: `${gi * 80}ms`,
+                }}
+              >
+                {/* Header */}
+                <div className="crt-group-header">
+                  <span className="crt-group-dot" style={{ background: s.dot }} />
+                  <span className="crt-group-label" style={{ color: s.label }}>
+                    {cat}
+                  </span>
+                  <span className="crt-group-count">
+                    {items.length} award{items.length !== 1 ? "s" : ""}
+                  </span>
+                </div>
 
-          {/* Stats — compact inline card */}
-          <div className="crt-stats">
-            {[
-              { num: certificates.length, lbl: "Total" },
-              { num: certificates.filter(c => c.category === "Academic Excellence").length, lbl: "Academic" },
-              { num: certificates.filter(c => c.category === "Project Award").length,       lbl: "Projects" },
-              { num: certificates.filter(c => c.category === "Recognition").length,         lbl: "Recognition" },
-            ].map(s => (
-              <div key={s.lbl} className="crt-stat">
-                <span className="crt-stat-num">{s.num}</span>
-                <span className="crt-stat-lbl">{s.lbl}</span>
+                {/* Pills */}
+                <div className="crt-group-pills">
+                  {items.map(c => {
+                    const globalIdx = certificates.findIndex(x => x.file === c.file);
+                    return (
+                      <div
+                        key={c.file}
+                        className="crt-pill"
+                        style={{ borderLeftColor: s.accentColor }}
+                        onClick={() => setLb(globalIdx)}
+                      >
+                        <span className="crt-pill-title">{c.title}</span>
+                        <span className="crt-pill-year">{c.year}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            ))}
-          </div>
-
-          {/* Filters */}
-          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "4px" }}>
-            {CATS.map(cat => (
-              <button key={cat} className={`crt-pill${filter === cat ? " active" : ""}`} onClick={() => setFilter(cat)}>
-                {cat}
-              </button>
-            ))}
-          </div>
-
-          {/* Year groups → rows */}
-          {groups.map(([year, items]) => (
-            <div key={year}>
-              <div className="crt-year-label">{year}</div>
-              {items.map(c => {
-                const globalIdx = list.findIndex(l => l.file === c.file);
-                const m = CAT_META[c.category];
-                return (
-                  <div key={c.file} className="crt-row" onClick={() => setLb(globalIdx)}>
-                    <span className="crt-row-num">{String(globalIdx + 1).padStart(2, "0")}</span>
-                    <span className="crt-row-badge" style={{ background: m.bg, border: `1px solid ${m.border}`, color: m.text }}>
-                      <span className="crt-row-dot" style={{ background: m.dot }} />
-                      {c.category}
-                    </span>
-                    <span className="crt-row-title">{c.title}</span>
-                    <ArrowUpRight size={14} className="crt-row-arrow" />
-                  </div>
-                );
-              })}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -311,14 +303,18 @@ export default function Certificates() {
               <p className="crt-lb-sub">{lbCert.category} · {lbCert.year}</p>
             </div>
           </div>
-          <button className="crt-lb-close" onClick={() => setLb(null)}><X size={13} /></button>
-          {list.length > 1 && (
-            <>
-              <button className="crt-lb-nav" style={{ left: 16 }} onClick={e => { e.stopPropagation(); prev(); }}><ChevronLeft size={17} /></button>
-              <button className="crt-lb-nav" style={{ right: 16 }} onClick={e => { e.stopPropagation(); next(); }}><ChevronRight size={17} /></button>
-            </>
-          )}
-          <div className="crt-lb-cnt">{lightbox + 1} / {list.length}</div>
+          <button className="crt-lb-close" onClick={() => setLb(null)}>
+            <X size={13} />
+          </button>
+          <button className="crt-lb-nav" style={{ left: 16 }}
+            onClick={e => { e.stopPropagation(); prev(); }}>
+            <ChevronLeft size={17} />
+          </button>
+          <button className="crt-lb-nav" style={{ right: 16 }}
+            onClick={e => { e.stopPropagation(); next(); }}>
+            <ChevronRight size={17} />
+          </button>
+          <div className="crt-lb-cnt">{lightbox + 1} / {certificates.length}</div>
         </div>
       )}
     </section>
